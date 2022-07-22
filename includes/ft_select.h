@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/07/21 18:48:06 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/22 13:05:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@
 /***** MISC BIT SEQUENCES *****/
 
 # define CLEAR_SCRN "\x1B[2J"
-# define MOVE_CURSOR "\033[%d;%dH"
+# define POSITION_CURSOR "\033[%d;%dH"
 # define ALT_SCRN "\033[?1049h\033[H"
 # define EXIT_ALT_SCRN "\033[?1049l"
+# define UL_START "\033[4m"
+# define UL_END "\033[24m"
+# define REV_VIDEO "\033[7m"
 
 /***** KEYBOARD MAPPING *****/
 

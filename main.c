@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/21 18:57:44 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/22 13:55:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,9 @@ void	get_cols_rows(int *cols, int *rows)
 	*rows = window.ws_row;
 }
 
-void	move_cursor(int y, int x)
+void	position_cursor(int y, int x)
 {
-	printf(MOVE_CURSOR, y, x);
-}
-
-void	enter_alt_screen()
-{
-	printf("%s", ALT_SCRN);
-}
-
-void	exit_alt_screen()
-{
-	printf("%s", EXIT_ALT_SCRN);
+	ft_printf(POSITION_CURSOR, y, x);
 }
 
 void	echo_off()
@@ -47,28 +37,18 @@ void	echo_off()
 	tcsetattr(1, TCSANOW, &term);
 }
 
-void	canon_off()
+void	echo_canon_off()
 {
 	struct termios term;
 
 	tcgetattr(1, &term);
-	term.c_lflag &= ~ICANON;
+	term.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(1, TCSANOW, &term);
 }
 
-void	underline_start()
+void	print_sequence(char *str)
 {
-	printf("\033[4m");
-}
-
-void	underline_end()
-{
-	printf("\033[24m");
-}
-
-void	reverse_video()
-{
-	printf("\033[7m");
+	ft_putstr(str);
 }
 
 void	setup_window()
@@ -78,15 +58,21 @@ void	setup_window()
 	int		rows;
 
 	get_cols_rows(&cols, &rows);
-	printf("%s", CLEAR_SCRN);
-	move_cursor(rows/2, (cols - strlen(str))/2);
-	underline_start();
-	printf("%s%s%s", YELLOW, BG_GREEN, str);
-	underline_end();
-	printf("\n\n");
-	reverse_video();
-	printf("HELLO AGAIN%s\n", RESET_COLOUR);
-	printf(" \b\n");
+	print_sequence(CLEAR_SCRN);
+	position_cursor(rows/2, (cols - strlen(str))/2);
+	print_sequence(UL_START);
+	ft_printf("%s%s%s", YELLOW, BG_GREEN, str);
+	print_sequence(UL_END);
+	ft_putstr("\n\n");
+	print_sequence(REV_VIDEO);
+	ft_printf("HELLO AGAIN%s\n", RESET_COLOUR);
+	ft_putstr(" \b\n");
+}
+
+int		my_putc(int c)
+{
+	write(1, &c, 1);
+	return (c);
 }
 
 int	main(int argc, char **argv)
@@ -98,27 +84,36 @@ int	main(int argc, char **argv)
 //	int ret = tcgetattr(1, &termios_p);
 //	termios_p.c_lflag &= ~(ICANON);
 //	tcsetattr(1, TCSANOW, &termios_p);
-//	char *name = getenv("TERM");
-//	int i = tgetent(NULL, name);
 //	printf("%s %d %d\n", name, i, ret);
-	struct termios termios_p;
+//	struct termios termios_p;
 	char	c;
+	struct termios	orig_term;
+//	struct termios	current_term;
+
+	char *name;
+
+	name = getenv("TERM");
+	tgetent(NULL, name);
+	tcgetattr(1, &orig_term);
 
 	c = 0;
 	signal(SIGWINCH, &setup_window);
-	enter_alt_screen();
+	print_sequence(ALT_SCRN);
+	tputs(tgetstr("vi", NULL), 1, &my_putc);
+	echo_canon_off();
 	setup_window();
-//	echo_off();
 	while (1)
 	{
 		c = getchar();
 		if (c == 'x')
 			break ;
-		else
-		{
-			printf("%x\n", c);
-		}
+	//	else
+	//	{
+	//		ft_printf("%x\n", c);
+	//	}
 	}
-	exit_alt_screen();
+	print_sequence(tgetstr("ve", NULL));
+	tcsetattr(1, TCSANOW, &orig_term);
+	print_sequence(EXIT_ALT_SCRN);
 	return (0);
 }
