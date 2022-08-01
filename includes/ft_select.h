@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 17:19:59 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 18:39:32 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@
 # define ESC_KEY 0x1b
 # define DELETE_KEY 0x1b5b337e
 # define BACKSPACE_KEY 0x08
+
+/***** TERMCAP CODES *****/
+
+# define CURSOR_INVISIBLE "vi"
+# define CURSOR_NORMAL "ve"
+
+/***** GLOBAL VARIABLES *****/
+
+int	g_window_change;
 
 /***** FUNCTION PROTOTYPES *****/
 

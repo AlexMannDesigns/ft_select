@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 17:20:51 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 18:44:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,23 @@
 void	interrupt()
 {
 	ft_putendl("HOW DARE YOU INTERRUPT ME");
+}
+
+void	print_options(char **options)
+{
+	int	i;
+
+	i = 0;
+	while (options[i])
+	{
+		ft_putstr(UL_START);
+		ft_printf("%s%s%s{reset}", YELLOW, BG_GREEN, options[i]);
+		ft_putstr(UL_END);
+		if (options + i + 1)
+			ft_putchar('\n');
+		i++;
+	}
+	g_window_change = FALSE;
 }
 
 int	main(int argc, char **argv)
@@ -42,20 +59,22 @@ int	main(int argc, char **argv)
 	signal(SIGWINCH, &setup_window);
 	signal(SIGINT, &interrupt);
 	ft_putstr(ALT_SCRN);
-	tputs(tgetstr("vi", NULL), 1, &my_putc);
+	tputs(tgetstr(CURSOR_INVISIBLE, NULL), 1, &my_putc);
 	echo_canon_off();
 	setup_window();
 	while (1)
 	{
+		if (g_window_change)
+			print_options(argv + 1);
 		c = getchar();
-		if (c == 'x')
+		if (c == 'x' || c == ESC_KEY)
 			break ;
 	//	else
 	//	{
 	//		ft_printf("%x\n", c);
 	//	}
 	}
-	ft_putstr(tgetstr("ve", NULL));
+	tputs(tgetstr(CURSOR_NORMAL, NULL), 1, &my_putc);
 	tcsetattr(1, TCSANOW, &orig_term);
 	ft_putstr(EXIT_ALT_SCRN);
 	return (0);
