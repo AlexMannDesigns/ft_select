@@ -6,73 +6,15 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/22 13:55:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 17:20:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-#include <stdio.h> //DELETE ME
-
-void	get_cols_rows(int *cols, int *rows)
+void	interrupt()
 {
-	struct winsize	window;
-
-	ioctl(1, TIOCGWINSZ, &window);
-	*cols = window.ws_col;
-	*rows = window.ws_row;
-}
-
-void	position_cursor(int y, int x)
-{
-	ft_printf(POSITION_CURSOR, y, x);
-}
-
-void	echo_off()
-{
-	struct termios term;
-
-	tcgetattr(1, &term);
-	term.c_lflag &= ~ECHO;
-	tcsetattr(1, TCSANOW, &term);
-}
-
-void	echo_canon_off()
-{
-	struct termios term;
-
-	tcgetattr(1, &term);
-	term.c_lflag &= ~(ICANON | ECHO);
-	tcsetattr(1, TCSANOW, &term);
-}
-
-void	print_sequence(char *str)
-{
-	ft_putstr(str);
-}
-
-void	setup_window()
-{
-	char	*str = "HELLO";
-	int		cols;
-	int		rows;
-
-	get_cols_rows(&cols, &rows);
-	print_sequence(CLEAR_SCRN);
-	position_cursor(rows/2, (cols - strlen(str))/2);
-	print_sequence(UL_START);
-	ft_printf("%s%s%s", YELLOW, BG_GREEN, str);
-	print_sequence(UL_END);
-	ft_putstr("\n\n");
-	print_sequence(REV_VIDEO);
-	ft_printf("HELLO AGAIN%s\n", RESET_COLOUR);
-	ft_putstr(" \b\n");
-}
-
-int		my_putc(int c)
-{
-	write(1, &c, 1);
-	return (c);
+	ft_putendl("HOW DARE YOU INTERRUPT ME");
 }
 
 int	main(int argc, char **argv)
@@ -98,7 +40,8 @@ int	main(int argc, char **argv)
 
 	c = 0;
 	signal(SIGWINCH, &setup_window);
-	print_sequence(ALT_SCRN);
+	signal(SIGINT, &interrupt);
+	ft_putstr(ALT_SCRN);
 	tputs(tgetstr("vi", NULL), 1, &my_putc);
 	echo_canon_off();
 	setup_window();
@@ -112,8 +55,8 @@ int	main(int argc, char **argv)
 	//		ft_printf("%x\n", c);
 	//	}
 	}
-	print_sequence(tgetstr("ve", NULL));
+	ft_putstr(tgetstr("ve", NULL));
 	tcsetattr(1, TCSANOW, &orig_term);
-	print_sequence(EXIT_ALT_SCRN);
+	ft_putstr(EXIT_ALT_SCRN);
 	return (0);
 }

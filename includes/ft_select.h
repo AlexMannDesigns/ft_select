@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/07/22 13:05:55 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 17:19:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,16 @@
 # define ESC_KEY 0x1b
 # define DELETE_KEY 0x1b5b337e
 # define BACKSPACE_KEY 0x08
+
+/***** FUNCTION PROTOTYPES *****/
+
+/* setup_window.c */
+void	setup_window();
+
+/* term_control_functions.c */
+void	echo_off();
+void	echo_canon_off();
+int		my_putc(int c);
+void	position_cursor(int y, int x);
 
 #endif
