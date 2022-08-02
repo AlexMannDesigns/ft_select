@@ -6,27 +6,93 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 18:44:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/02 17:56:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	interrupt()
+size_t	handle_select(size_t cursor, size_t len, unsigned int *selected)
 {
-	ft_putendl("HOW DARE YOU INTERRUPT ME");
+	*selected ^= (1U << (cursor + 1));
+	if (cursor == len - 1)
+		cursor = 0;
+	else
+		cursor++;
+	setup_window();
+	return (cursor);
 }
 
-void	print_options(char **options)
-{
-	int	i;
 
+size_t	handle_scroll(size_t cursor, size_t len, char *buff)//, char **options)
+{
+	if (buff[2] == DOWN_ARROW)
+	{
+		cursor++;
+		if (cursor > len - 1)
+			cursor = 0;
+	}
+	else if (buff[2] == UP_ARROW)
+	{
+		if (cursor == 0)
+			cursor = len - 1;
+		else
+			cursor--;
+	}
+	setup_window();
+	return (cursor);
+}
+
+void	interrupt()
+{
+	return ;
+}
+
+static void	close_program(struct termios *orig)
+{
+	tputs(tgetstr(CURSOR_NORMAL, NULL), 1, &my_putc);
+	tcsetattr(1, TCSANOW, orig);
+	ft_putstr(EXIT_ALT_SCRN);
+}
+
+static void	initialise_program(struct termios *orig, struct termios *current)
+{
+	char	*name;
+
+	name = getenv("TERM");
+	tgetent(NULL, name);
+	tcgetattr(1, orig);
+	tcgetattr(1, current);
+	current->c_cc[VMIN] = 0;
+	current->c_cc[VTIME] = 1;
+	tcsetattr(1, TCSANOW, current);
+	ft_putstr(ALT_SCRN);
+	tputs(tgetstr(CURSOR_INVISIBLE, NULL), 1, &my_putc);
+	echo_canon_off();
+	setup_window();
+	signal(SIGWINCH, &setup_window);
+	signal(SIGINT, &interrupt);
+}
+
+void	print_options(char **options, size_t cursor, size_t len, unsigned int selected)
+{
+	size_t	i;
+	int		cols;
+	int		rows;
+
+	get_cols_rows(&cols, &rows);
+	ft_putstr(CLEAR_SCRN);
 	i = 0;
 	while (options[i])
 	{
-		ft_putstr(UL_START);
-		ft_printf("%s%s%s{reset}", YELLOW, BG_GREEN, options[i]);
-		ft_putstr(UL_END);
+		position_term_cursor((rows/2) - (len/2) + i, (cols - ft_strlen(options[i]))/2);
+		if (selected & (1U << (i + 1)))
+			ft_putstr(REV_VIDEO);
+		if (i == cursor)
+			ft_putstr(UL_START);
+		ft_printf("%s%s{reset}", YELLOW, options[i]);
+		if (i == cursor)
+			ft_putstr(UL_END);
 		if (options + i + 1)
 			ft_putchar('\n');
 		i++;
@@ -34,48 +100,46 @@ void	print_options(char **options)
 	g_window_change = FALSE;
 }
 
-int	main(int argc, char **argv)
+static void	control_loop(char **options)
 {
-	if (argc)
-		;
-	if (argv)
-		;
-//	int ret = tcgetattr(1, &termios_p);
-//	termios_p.c_lflag &= ~(ICANON);
-//	tcsetattr(1, TCSANOW, &termios_p);
-//	printf("%s %d %d\n", name, i, ret);
-//	struct termios termios_p;
-	char	c;
-	struct termios	orig_term;
-//	struct termios	current_term;
+	unsigned int		selected;
+	int					ret;
+	size_t				cursor;
+	size_t				len;
+	char				buff[10];
 
-	char *name;
-
-	name = getenv("TERM");
-	tgetent(NULL, name);
-	tcgetattr(1, &orig_term);
-
-	c = 0;
-	signal(SIGWINCH, &setup_window);
-	signal(SIGINT, &interrupt);
-	ft_putstr(ALT_SCRN);
-	tputs(tgetstr(CURSOR_INVISIBLE, NULL), 1, &my_putc);
-	echo_canon_off();
-	setup_window();
+	len = ft_array_len(options);
+	selected = 0;
+	cursor = 0;
+	ft_bzero(buff, 10);
+	ret = 0;
 	while (1)
 	{
 		if (g_window_change)
-			print_options(argv + 1);
-		c = getchar();
-		if (c == 'x' || c == ESC_KEY)
-			break ;
-	//	else
-	//	{
-	//		ft_printf("%x\n", c);
-	//	}
+			print_options(options, cursor, len, selected);
+		ret = read(1, buff, 10);
+		if (ret)
+		{
+			if (buff[0] == ESC_KEY && buff[1] == ARROW)
+				cursor = handle_scroll(cursor, len, buff);
+			else if (buff[0] == SPACE)
+				cursor = handle_select(cursor, len, &selected);
+			else if (buff[0] == ESC_KEY) //must be last
+				break ;
+			ft_bzero(buff, 10);
+		}
 	}
-	tputs(tgetstr(CURSOR_NORMAL, NULL), 1, &my_putc);
-	tcsetattr(1, TCSANOW, &orig_term);
-	ft_putstr(EXIT_ALT_SCRN);
+}
+
+int	main(int argc, char **argv)
+{
+	struct termios	orig_term;
+	struct termios	current_term;
+
+	if (argc == 1)
+		return (0);
+	initialise_program(&orig_term, &current_term);
+	control_loop(argv + 1);
+	close_program(&orig_term);
 	return (0);
 }

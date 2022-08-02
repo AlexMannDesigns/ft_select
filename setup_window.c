@@ -6,13 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:00:54 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 18:47:06 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/02 17:13:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-static void	get_cols_rows(int *cols, int *rows)
+void	get_cols_rows(int *cols, int *rows)
 {
 	struct winsize	window;
 
@@ -21,14 +21,7 @@ static void	get_cols_rows(int *cols, int *rows)
 	*rows = window.ws_row;
 }
 
-void	setup_window(void)
+void	setup_window()
 {
-	char	*str = "HELLO";
-	int		cols;
-	int		rows;
-
-	get_cols_rows(&cols, &rows);
-	ft_putstr(CLEAR_SCRN);
-	position_cursor(rows/2, (cols - strlen(str))/2);
 	g_window_change = TRUE;
 }

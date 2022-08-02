@@ -6,15 +6,15 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:18:01 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 18:38:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/02 17:09:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	position_cursor(int y, int x)
+void	position_term_cursor(int y, int x)
 {
-	ft_printf(POSITION_CURSOR, y, x);
+	ft_printf(POSITION_TERM_CURSOR, y, x);
 }
 
 void	echo_off(void)

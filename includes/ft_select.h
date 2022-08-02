@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 18:39:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/02 17:35:27 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 /***** MISC BIT SEQUENCES *****/
 
 # define CLEAR_SCRN "\x1B[2J"
-# define POSITION_CURSOR "\033[%d;%dH"
+# define POSITION_TERM_CURSOR "\033[%d;%dH"
 # define ALT_SCRN "\033[?1049h\033[H"
 # define EXIT_ALT_SCRN "\033[?1049l"
 # define UL_START "\033[4m"
@@ -59,11 +59,13 @@
 
 /***** KEYBOARD MAPPING *****/
 
-# define UP_ARROW 0x1b5b41
-# define DOWN_ARROW 0x1b5b42
-# define RIGHT_ARROW 0x1b5b43
-# define LEFT_ARROW 0x1b5b44
+# define ARROW 0x5b
+# define UP_ARROW 0x41
+# define DOWN_ARROW 0x42
+# define RIGHT_ARROW 0x43
+# define LEFT_ARROW 0x44
 # define ENTER_KEY 0xa
+# define SPACE 0x20
 # define ESC_KEY 0x1b
 # define DELETE_KEY 0x1b5b337e
 # define BACKSPACE_KEY 0x08
@@ -79,13 +81,17 @@ int	g_window_change;
 
 /***** FUNCTION PROTOTYPES *****/
 
+/* main.c */
+void	print_options(char **options, size_t cursor, size_t len, unsigned int selected);
+
 /* setup_window.c */
 void	setup_window();
+void	get_cols_rows(int *cols, int *rows);
 
 /* term_control_functions.c */
 void	echo_off();
 void	echo_canon_off();
 int		my_putc(int c);
-void	position_cursor(int y, int x);
+void	position_term_cursor(int y, int x);
 
 #endif
