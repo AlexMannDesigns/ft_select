@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/03 14:09:24 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/03 16:05:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ size_t	handle_delete(size_t cursor, size_t *len, unsigned int *selected, char **
 	return (cursor);
 }
 
-static void	control_loop(char **options)
+static void	control_loop(char ***options)
 {
 	unsigned int		selected;
 	int					ret;
@@ -138,20 +138,20 @@ static void	control_loop(char **options)
 	size_t				len;
 	char				buff[10];
 
-	len = ft_array_len(options);
+	len = ft_array_len(*options);
 	selected = 0;
 	cursor = 0;
 	ft_bzero(buff, 10);
 	ret = 0;
-	while (1 && options)
+	while (1 && *options)
 	{
 		if (g_window_change)
-			print_options(options, cursor, len, selected);
+			print_options(*options, cursor, len, selected);
 		ret = read(1, buff, 10);
 		if (ret)
 		{
 			if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
-				cursor = handle_delete(cursor, &len, &selected, &options);
+				cursor = handle_delete(cursor, &len, &selected, options);
 			else if (buff[0] == ESC && buff[1] == ARROW)
 				cursor = handle_scroll(cursor, len, buff);
 			else if (buff[0] == SPACE)
@@ -174,6 +174,20 @@ void	print_bits(unsigned int nb)
 	ft_putchar('\n');
 }
 
+void	print_select_result(char **options)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (options[i])
+	{
+		ft_putstr(options[i]);
+		if (options + i + 1)
+			ft_putchar(' ');
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	struct termios	orig_term;
@@ -187,7 +201,8 @@ int	main(int argc, char **argv)
 	if (!options_array)
 		return (0);
 	initialise_program(&orig_term, &current_term);
-	control_loop(options_array);
+	control_loop(&options_array);
 	close_program(&orig_term);
+	print_select_result(options_array);
 	return (0);
 }
