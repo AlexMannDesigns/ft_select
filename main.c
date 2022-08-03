@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/02 17:56:04 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/03 13:53:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,36 @@ void	print_options(char **options, size_t cursor, size_t len, unsigned int selec
 	g_window_change = FALSE;
 }
 
+// remove options[cursor] from array by copying all other
+// strings into a new array and freeing the original --> look into unsetenv function to handle this
+// update the bits in selected by saving the bits beyond the deleted option to a temp
+// then shifting them one to the right
+// then set all bits to 0 from the selected bit to leftmost
+// then set those bits to match the bits in the temp bit
+
+size_t	handle_delete(size_t cursor, size_t *len, unsigned int *selected, char ***options)
+{
+	unsigned int temp;
+	unsigned int mask;
+
+	if (*selected || *len)
+		;
+	ft_remove_from_array(options, cursor);
+	if (*selected & (1U << (cursor + 1)))
+		cursor = handle_select(cursor, *len, selected) - 1;
+	temp = *selected;
+	mask = ~(~0 << (cursor + 1));
+	*selected &= ~mask;
+	temp &= mask;
+	*selected >>= 1;
+	*selected ^= temp;
+	(*len)--;
+	if (cursor >= *len)
+		cursor = 0;
+	g_window_change = TRUE;
+	return (cursor);
+}
+
 static void	control_loop(char **options)
 {
 	unsigned int		selected;
@@ -113,33 +143,51 @@ static void	control_loop(char **options)
 	cursor = 0;
 	ft_bzero(buff, 10);
 	ret = 0;
-	while (1)
+	while (1 && options)
 	{
 		if (g_window_change)
 			print_options(options, cursor, len, selected);
 		ret = read(1, buff, 10);
 		if (ret)
 		{
-			if (buff[0] == ESC_KEY && buff[1] == ARROW)
+			if (buff[0] == ESC && buff[1] == ARROW)
 				cursor = handle_scroll(cursor, len, buff);
 			else if (buff[0] == SPACE)
 				cursor = handle_select(cursor, len, &selected);
-			else if (buff[0] == ESC_KEY) //must be last
+			else if (buff[0] == BACKSPACE) //|| (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
+				cursor = handle_delete(cursor, &len, &selected, &options);
+			else if (buff[0] == ESC) //must be last
 				break ;
 			ft_bzero(buff, 10);
 		}
 	}
 }
 
+void	print_bits(unsigned int nb)
+{
+	for (int i = 31 ; i >= 0 ; i--)
+	{
+		ft_printf("%c", ((nb & (1 << i)) ? '1' : '0'));
+		if (i % 4 == 0)
+			ft_printf(" ");
+	}
+	ft_putchar('\n');
+}
+
 int	main(int argc, char **argv)
 {
 	struct termios	orig_term;
 	struct termios	current_term;
+	char			**options_array;
+
 
 	if (argc == 1)
 		return (0);
+	options_array = ft_copy_array(argv + 1);
+	if (!options_array)
+		return (0);
 	initialise_program(&orig_term, &current_term);
-	control_loop(argv + 1);
+	control_loop(options_array);
 	close_program(&orig_term);
 	return (0);
 }

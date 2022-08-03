@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/08/02 17:35:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/03 12:34:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@
 # define DOWN_ARROW 0x42
 # define RIGHT_ARROW 0x43
 # define LEFT_ARROW 0x44
-# define ENTER_KEY 0xa
+# define ENTER 0xa
 # define SPACE 0x20
-# define ESC_KEY 0x1b
-# define DELETE_KEY 0x1b5b337e
-# define BACKSPACE_KEY 0x08
+# define ESC 0x1b
+# define BACKSPACE 0x7f
+//# define DELETE 0x7f
+//# define DELETE 0x1b5b337e
 
 /***** TERMCAP CODES *****/
 
@@ -80,6 +81,10 @@
 int	g_window_change;
 
 /***** FUNCTION PROTOTYPES *****/
+
+/* helpers.c */
+char	**ft_copy_array(char **orig);
+void	ft_remove_from_array(char ***orig, size_t idx);
 
 /* main.c */
 void	print_options(char **options, size_t cursor, size_t len, unsigned int selected);
