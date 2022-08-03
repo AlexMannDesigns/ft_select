@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/03 13:53:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/03 14:09:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,12 @@ static void	control_loop(char **options)
 		ret = read(1, buff, 10);
 		if (ret)
 		{
-			if (buff[0] == ESC && buff[1] == ARROW)
+			if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
+				cursor = handle_delete(cursor, &len, &selected, &options);
+			else if (buff[0] == ESC && buff[1] == ARROW)
 				cursor = handle_scroll(cursor, len, buff);
 			else if (buff[0] == SPACE)
 				cursor = handle_select(cursor, len, &selected);
-			else if (buff[0] == BACKSPACE) //|| (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
-				cursor = handle_delete(cursor, &len, &selected, &options);
 			else if (buff[0] == ESC) //must be last
 				break ;
 			ft_bzero(buff, 10);
