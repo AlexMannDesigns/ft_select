@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 11:53:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 13:51:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 // then shifting them one to the right
 // then set all bits to 0 from the selected bit to leftmost
 // then set those bits to match the bits in the temp bit
+
+static void	close_program(struct termios *orig)
+{
+	tputs(tgetstr(CURSOR_NORMAL, NULL), 1, &my_putc);
+	tcsetattr(1, TCSANOW, orig);
+	ft_putstr(EXIT_ALT_SCRN);
+}
+
 /*
 size_t	handle_delete(size_t cursor, size_t *len, unsigned int *selected, char ***options)
 {
@@ -56,62 +64,55 @@ size_t	handle_select(size_t cursor, size_t len, unsigned int *selected)
 */
 
 /*
-size_t	handle_scroll(size_t cursor, size_t len, char *buff)//, char **options)
+ * If we are dealing with a down arrow, we simply search through our list until
+ * we find the node with cursor set to true. Set it to false and set the next
+ * node's cursor value to true. If next == NULL, we set the node at the start
+ * of the list to true.
+ *
+ * In the case of an up arrow, we search through the list inspecting the cursor
+ * value of the NEXT node. We then set the current node's cursor to true and
+ * next to false. If the cursor is on the first node, we set it to false and
+ * cycle to the end of the list and set that to true.
+ *
+ * setup_window() sets our global variable to true so the changes take effect
+ * on the next iteration.
+ */
+
+void	handle_scroll(t_list **options, char *buff)//, char **options)
 {
+	t_list			*current;
+	t_option_data	*data;
+
+	current = *options;
 	if (buff[2] == DOWN_ARROW)
 	{
-		cursor++;
-		if (cursor > len - 1)
-			cursor = 0;
+		while (current)
+		{
+			data = (t_option_data *) current->content;
+			if (data->cursor)
+			{
+				data->cursor = FALSE;
+				if (current->next)
+				{
+					current = current->next;
+					data = (t_option_data *) current->content;
+					data->cursor = TRUE;
+				}
+				else
+				{
+					data = (t_option_data *) (*options)->content;
+					data->cursor = TRUE;
+				}
+				break ;
+			}
+			current = current->next;
+		}
 	}
 	else if (buff[2] == UP_ARROW)
 	{
-		if (cursor == 0)
-			cursor = len - 1;
-		else
-			cursor--;
+		;
 	}
 	setup_window();
-	return (cursor);
-}
-
-*/
-static void	close_program(struct termios *orig)
-{
-	tputs(tgetstr(CURSOR_NORMAL, NULL), 1, &my_putc);
-	tcsetattr(1, TCSANOW, orig);
-	ft_putstr(EXIT_ALT_SCRN);
-}
-
-
-void	print_options(t_list *options, size_t len)
-{
-	size_t			i;
-	int				cols;
-	int				rows;
-	t_option_data	*data;
-
-	get_cols_rows(&cols, &rows);
-	ft_putstr(CLEAR_SCRN);
-	i = 0;
-	while (options)
-	{
-	//	ft_putendl("here");
-		data = (t_option_data *) options->content;
-		position_term_cursor((rows/2) - (len/2) + i, (cols - ft_strlen(data->name))/2);
-		//if (selected & (1U << (i + 1)))
-		//	ft_putstr(REV_VIDEO);
-		if (data->cursor)
-			ft_putstr(UL_START);
-		ft_printf("%s%s{reset}", YELLOW, data->name);
-		if (data->cursor)
-			ft_putstr(UL_END);
-		if (options->next)
-			ft_putchar('\n');
-		options = options->next;
-		i++;
-	}
-	g_window_change = FALSE;
 }
 
 static void	control_loop(t_list **options)
@@ -136,11 +137,11 @@ static void	control_loop(t_list **options)
 		{
 			//if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
 			//	cursor = handle_delete(cursor, &len, options);
-		//	if (buff[0] == ESC && buff[1] == ARROW)
-		//		cursor = handle_scroll(cursor, len, buff);
+			if (buff[0] == ESC && buff[1] == ARROW)
+				handle_scroll(options, buff);
 			//else if (buff[0] == SPACE)
 			//	cursor = handle_select(cursor, len, &selected);
-			if (buff[0] == ESC) //must be last
+			else if (buff[0] == ESC) //must be last
 				break ;
 			ft_bzero(buff, BUFF_SIZE);
 		}

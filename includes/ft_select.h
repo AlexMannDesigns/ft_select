@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 11:45:49 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 13:14:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	initialise_options(t_list **options, char **argv);
 /* intialise_program.c */
 void	initialise_program(struct termios *orig, struct termios *current);
 
-/* main.c */
+/* print_options.c */
 void	print_options(t_list *options, size_t len);
 
 /* setup_window.c */
