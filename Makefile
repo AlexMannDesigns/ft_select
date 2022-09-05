@@ -6,14 +6,15 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/05 16:02:00 by amann            ###   ########.fr        #
+#    Updated: 2022/09/05 17:04:20 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_select
 FLAGS = -Wall -Wextra -Werror -ansi -std=c99 -pedantic -O3 -g
-SRCS = ft_list_len.c handle_scroll.c handle_select.c helpers.c initialise_options.c initialise_program.c main.c \
-		print_options.c setup_window.c term_control_functions.c
+SRCS = delete_node.c ft_list_len.c handle_delete.c handle_scroll.c				\
+		handle_select.c helpers.c initialise_options.c initialise_program.c		\
+		main.c print_options.c setup_window.c term_control_functions.c
 OBJ = $(SRCS:%.c=%.o)
 LIB_DIR = libft/
 HEADER = -I includes/ -I $(LIB_DIR)includes

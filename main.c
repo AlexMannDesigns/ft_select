@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 16:05:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 17:07:34 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,49 +25,6 @@ static void	close_program(struct termios *orig)
 	tcsetattr(1, TCSANOW, orig);
 	ft_putstr(EXIT_ALT_SCRN);
 }
-
-/*
-size_t	handle_delete(size_t cursor, size_t *len, unsigned int *selected, char ***options)
-{
-	unsigned int temp;
-	unsigned int mask;
-
-	if (*selected || *len)
-		;
-	ft_remove_from_array(options, cursor);
-	if (*selected & (1U << (cursor + 1)))
-		cursor = handle_select(cursor, *len, selected) - 1;
-	temp = *selected;
-	mask = ~(~0 << (cursor + 1));
-	*selected &= ~mask;
-	temp &= mask;
-	*selected >>= 1;
-	*selected ^= temp;
-	(*len)--;
-	if (cursor >= *len)
-		cursor = 0;
-	g_window_change = TRUE;
-	return (cursor);
-}
-*/
-
-
-
-/*
- * If we are dealing with a down arrow, we simply search through our list until
- * we find the node with cursor set to true. Set it to false and set the next
- * node's cursor value to true. If next == NULL, we set the node at the start
- * of the list to true.
- *
- * In the case of an up arrow, we search through the list inspecting the cursor
- * value of the NEXT node. We then set the current node's cursor to true and
- * next to false. If the cursor is on the first node, we set it to false and
- * cycle to the end of the list and set that to true.
- *
- * setup_window() sets our global variable to true so the changes take effect
- * on the next iteration.
- */
-
 
 static void	control_loop(t_list **options)
 {
@@ -89,8 +46,8 @@ static void	control_loop(t_list **options)
 		ret = read(1, buff, BUFF_SIZE);
 		if (ret)
 		{
-			//if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
-			//	cursor = handle_delete(cursor, &len, options);
+			if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
+				handle_delete(options);
 			if (buff[0] == ESC && buff[1] == ARROW)
 				handle_scroll(options, buff);
 			else if (buff[0] == SPACE)

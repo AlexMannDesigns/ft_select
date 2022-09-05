@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 13:13:14 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 16:51:46 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	print_options(t_list *options, size_t len)
 	int				rows;
 	t_option_data	*data;
 
+	if (len == 0 || !options)
+		return ;
 	get_cols_rows(&cols, &rows);
 	ft_putstr(CLEAR_SCRN);
 	i = 0;
 	while (options)
 	{
-	//	ft_putendl("here");
 		data = (t_option_data *) options->content;
 		position_term_cursor((rows/2) - (len/2) + i, (cols - ft_strlen(data->name))/2);
 		if (data->selected)

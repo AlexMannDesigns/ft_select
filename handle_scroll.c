@@ -6,11 +6,26 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:11:21 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 16:01:06 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 17:05:45 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+/*
+ * If we are dealing with a down arrow, we simply search through our list until
+ * we find the node with cursor set to true. Set it to false and set the next
+ * node's cursor value to true. If next == NULL, we set the node at the start
+ * of the list to true.
+ *
+ * In the case of an up arrow, we search through the list inspecting the cursor
+ * value of the NEXT node. We then set the current node's cursor to true and
+ * next to false. If the cursor is on the first node, we set it to false and
+ * cycle to the end of the list and set that to true.
+ *
+ * setup_window() sets our global variable to true so the changes take effect
+ * on the next iteration.
+ */
 
 static void	move_cursor_down(t_list **options)
 {

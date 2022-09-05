@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 16:03:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 17:03:34 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,14 @@ typedef struct s_option_data
 
 /***** FUNCTION PROTOTYPES *****/
 
+/* delete_node.c */
+void	delete_node(void *content, size_t content_size);
+
 /* ft_list_len.c */
 size_t	ft_list_len(t_list *lst);
+
+/* handle_delete.c */
+void	handle_delete(t_list **options);
 
 /* handle_scroll.c */
 void	handle_scroll(t_list **options, char *buff);

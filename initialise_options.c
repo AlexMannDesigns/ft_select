@@ -6,23 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 12:43:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 13:49:58 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 16:25:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
-
-static void	delete_node(void *content, size_t content_size)
-{
-	t_option_data	*data;
-
-	data = (t_option_data *) content;
-	ft_strdel(&(data->name));
-	data->selected = 0;
-	data->cursor = 0;
-	ft_memdel(&content);
-	content_size = 0;
-}
 
 /*
  *	each sub-struct of our linked list will contain the name of the option,
