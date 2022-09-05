@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/08/03 12:34:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 11:45:49 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,42 @@
 # define CURSOR_INVISIBLE "vi"
 # define CURSOR_NORMAL "ve"
 
+/***** MISC MACROS *****/
+
+# define TRUE 1
+# define FALSE 0
+# define BUFF_SIZE 15
+
 /***** GLOBAL VARIABLES *****/
 
 int	g_window_change;
 
+/***** STRUCTS *****/
+
+typedef struct s_option_data
+{
+	char	*name;
+	int		selected;
+	int		cursor;
+}			t_option_data;
+
 /***** FUNCTION PROTOTYPES *****/
+
+/* ft_list_len.c */
+size_t	ft_list_len(t_list *lst);
 
 /* helpers.c */
 char	**ft_copy_array(char **orig);
 void	ft_remove_from_array(char ***orig, size_t idx);
 
+/* initialise_options.c */
+void	initialise_options(t_list **options, char **argv);
+
+/* intialise_program.c */
+void	initialise_program(struct termios *orig, struct termios *current);
+
 /* main.c */
-void	print_options(char **options, size_t cursor, size_t len, unsigned int selected);
+void	print_options(t_list *options, size_t len);
 
 /* setup_window.c */
 void	setup_window();

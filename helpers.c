@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:21:34 by amann             #+#    #+#             */
-/*   Updated: 2022/08/03 11:49:45 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 11:48:52 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,4 @@ void	ft_remove_from_array(char ***orig, size_t idx)
 		free(*orig);
 		*orig = NULL;
 	}
-}
-
-
-char	**ft_copy_array(char **orig)
-{
-	char	**res;
-	size_t	len;
-	size_t	i;
-
-	len = ft_array_len(orig);
-	if (len == 0)
-		return (NULL);
-	res = (char **) ft_memalloc(sizeof(char *) * (len + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (orig[i])
-	{
-		res[i] = ft_strdup(orig[i]);
-		if (!res[i])
-		{
-			ft_freearray((void ***) &res, ft_array_len(res));
-			return (NULL);
-		}
-		i++;
-	}
-	return (res);
 }
