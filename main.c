@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 13:51:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/05 16:05:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,9 @@ size_t	handle_delete(size_t cursor, size_t *len, unsigned int *selected, char **
 	g_window_change = TRUE;
 	return (cursor);
 }
-
-size_t	handle_select(size_t cursor, size_t len, unsigned int *selected)
-{
-	*selected ^= (1U << (cursor + 1));
-	if (cursor == len - 1)
-		cursor = 0;
-	else
-		cursor++;
-	setup_window();
-	return (cursor);
-}
-
 */
+
+
 
 /*
  * If we are dealing with a down arrow, we simply search through our list until
@@ -78,42 +68,6 @@ size_t	handle_select(size_t cursor, size_t len, unsigned int *selected)
  * on the next iteration.
  */
 
-void	handle_scroll(t_list **options, char *buff)//, char **options)
-{
-	t_list			*current;
-	t_option_data	*data;
-
-	current = *options;
-	if (buff[2] == DOWN_ARROW)
-	{
-		while (current)
-		{
-			data = (t_option_data *) current->content;
-			if (data->cursor)
-			{
-				data->cursor = FALSE;
-				if (current->next)
-				{
-					current = current->next;
-					data = (t_option_data *) current->content;
-					data->cursor = TRUE;
-				}
-				else
-				{
-					data = (t_option_data *) (*options)->content;
-					data->cursor = TRUE;
-				}
-				break ;
-			}
-			current = current->next;
-		}
-	}
-	else if (buff[2] == UP_ARROW)
-	{
-		;
-	}
-	setup_window();
-}
 
 static void	control_loop(t_list **options)
 {
@@ -139,8 +93,8 @@ static void	control_loop(t_list **options)
 			//	cursor = handle_delete(cursor, &len, options);
 			if (buff[0] == ESC && buff[1] == ARROW)
 				handle_scroll(options, buff);
-			//else if (buff[0] == SPACE)
-			//	cursor = handle_select(cursor, len, &selected);
+			else if (buff[0] == SPACE)
+				handle_select(options);
 			else if (buff[0] == ESC) //must be last
 				break ;
 			ft_bzero(buff, BUFF_SIZE);
