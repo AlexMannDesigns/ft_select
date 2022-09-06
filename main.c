@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/06 15:52:52 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/06 18:05:26 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,31 @@
 // then set all bits to 0 from the selected bit to leftmost
 // then set those bits to match the bits in the temp bit
 
-static void	close_program(struct termios *orig)
+void	print_select_result(t_list *options)
 {
-	tputs(tgetstr(CURSOR_NORMAL, NULL), 1, &my_putc);
-	tcsetattr(1, TCSANOW, orig);
-	ft_putstr(EXIT_ALT_SCRN);
+	t_option_data	*data;
+	int				fd;
+	int				first;
+
+	first = TRUE;
+	fd = open("test", O_RDWR);
+	while (options)
+	{
+		data = (t_option_data *) options->content;
+		if (data->selected)
+		{
+			if (first)
+				first = FALSE;
+			else
+				ft_putstr_fd(" ", fd);
+			ft_putstr_fd(data->name, fd);
+		//	ft_putendl(data->name);
+		}
+		options = options->next;
+	}
 }
 
-static void	control_loop(t_list **options)
+static int	control_loop(t_list **options)// struct termios *orig)
 {
 //	unsigned int		selected;
 	int					ret;
@@ -53,46 +70,20 @@ static void	control_loop(t_list **options)
 			else if (buff[0] == SPACE)
 				handle_select(options);
 			else if (buff[0] == ENTER)
-				break ;
+				return (0);
 			else if (buff[0] == ESC) //must be last
-			{
-				ft_lstdel(options, &delete_node);
-				break ; //close_program(&orig_term);
-			}
+				return (1); //restore_terminal(&orig_term);
 			ft_bzero(buff, BUFF_SIZE);
 		}
 	}
+	return (1);
 }
 
-void	print_select_result(t_list *options)
-{
-	t_option_data	*data;
-	int				fd;
-	int				first;
-
-	first = TRUE;
-	fd = open("/dev/tty", O_RDWR);
-	while (options)
-	{
-		data = (t_option_data *) options->content;
-		if (data->selected)
-		{
-			if (first)
-				first = FALSE;
-			else
-				ft_putchar(' ');
-			ft_putstr_fd(data->name, fd);
-		}
-		options = options->next;
-	}
-}
 
 int	main(int argc, char **argv)
 {
-	struct termios	orig_term;
-	struct termios	current_term;
 	t_list			*options;
-
+	int				exited;
 
 	if (argc == 1)
 		return (0);
@@ -101,10 +92,11 @@ int	main(int argc, char **argv)
 	if (!options)
 		return (1);
 
-	initialise_program(&orig_term, &current_term);
-	control_loop(&options);
-	print_select_result(options);
+	initialise_program();
+	exited = control_loop(&options);//, &orig_term);
+	restore_terminal();
+	if (!exited)
+		print_select_result(options);
 	ft_lstdel(&options, &delete_node);
-	close_program(&orig_term);
 	return (0);
 }

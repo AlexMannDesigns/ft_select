@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/06 15:23:46 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/06 17:38:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@
 
 /***** GLOBAL VARIABLES *****/
 
-int	g_window_change;
+int				g_window_change;
+struct termios	g_original_term;
+struct termios	g_current_term;
 
 /***** STRUCTS *****/
 
@@ -119,10 +121,13 @@ void	ft_remove_from_array(char ***orig, size_t idx);
 void	initialise_options(t_list **options, char **argv);
 
 /* intialise_program.c */
-void	initialise_program(struct termios *orig, struct termios *current);
+void	initialise_program();
 
 /* print_options.c */
 void	print_options(t_list *options, size_t len);
+
+/* restore_terminal.c */
+void	restore_terminal(void);
 
 /* setup_window.c */
 void	setup_window();
