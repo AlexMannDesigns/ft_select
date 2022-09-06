@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 17:07:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/06 15:52:52 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,45 @@ static void	control_loop(t_list **options)
 		{
 			if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
 				handle_delete(options);
-			if (buff[0] == ESC && buff[1] == ARROW)
+			else if (buff[0] == ESC && buff[1] == ARROW)
 				handle_scroll(options, buff);
 			else if (buff[0] == SPACE)
 				handle_select(options);
-			else if (buff[0] == ESC) //must be last
+			else if (buff[0] == ENTER)
 				break ;
+			else if (buff[0] == ESC) //must be last
+			{
+				ft_lstdel(options, &delete_node);
+				break ; //close_program(&orig_term);
+			}
 			ft_bzero(buff, BUFF_SIZE);
 		}
 	}
 }
 
-/*
-void	print_select_result(char **options)
+void	print_select_result(t_list *options)
 {
-	unsigned int	i;
+	t_option_data	*data;
+	int				fd;
+	int				first;
 
-	i = 0;
-	while (options[i])
+	first = TRUE;
+	fd = open("/dev/tty", O_RDWR);
+	while (options)
 	{
-		ft_putstr(options[i]);
-		if (options + i + 1)
-			ft_putchar(' ');
-		i++;
+		data = (t_option_data *) options->content;
+		if (data->selected)
+		{
+			if (first)
+				first = FALSE;
+			else
+				ft_putchar(' ');
+			ft_putstr_fd(data->name, fd);
+		}
+		options = options->next;
 	}
 }
-*/
+
 int	main(int argc, char **argv)
 {
 	struct termios	orig_term;
@@ -90,8 +103,8 @@ int	main(int argc, char **argv)
 
 	initialise_program(&orig_term, &current_term);
 	control_loop(&options);
+	print_select_result(options);
+	ft_lstdel(&options, &delete_node);
 	close_program(&orig_term);
-//	print_select_result(options_array);
-
 	return (0);
 }

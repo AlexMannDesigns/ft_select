@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 17:03:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/06 15:23:46 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 # include <curses.h>
 # include <term.h>
 # include <termios.h>
-# include <stdlib.h>
-# include <unistd.h>
+# include <fcntl.h>
 # include <sys/ioctl.h>
 # include <signal.h>
 

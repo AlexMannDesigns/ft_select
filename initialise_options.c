@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 12:43:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 16:25:13 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/06 15:10:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static t_option_data	*create_option_data_struct(char *option_name, int *first)
 	new = (t_option_data *) ft_memalloc(sizeof(t_option_data));
 	if (!new)
 		return (NULL);
-	ft_putendl(option_name);
 	new->name = ft_strdup(option_name);
 	if (!(new->name))
 		return (NULL);
