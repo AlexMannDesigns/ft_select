@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/06 18:05:26 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 12:05:33 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 void	print_select_result(t_list *options)
 {
 	t_option_data	*data;
-	int				fd;
+//	int				fd;
 	int				first;
 
 	first = TRUE;
-	fd = open("test", O_RDWR);
+//	fd = open("test", O_RDWR);
 	while (options)
 	{
 		data = (t_option_data *) options->content;
@@ -35,8 +35,8 @@ void	print_select_result(t_list *options)
 			if (first)
 				first = FALSE;
 			else
-				ft_putstr_fd(" ", fd);
-			ft_putstr_fd(data->name, fd);
+				ft_putstr(" ");
+			ft_putstr(data->name);
 		//	ft_putendl(data->name);
 		}
 		options = options->next;
@@ -60,7 +60,7 @@ static int	control_loop(t_list **options)// struct termios *orig)
 		len = ft_list_len(*options);
 		if (g_window_change)
 			print_options(*options, len);
-		ret = read(1, buff, BUFF_SIZE);
+		ret = read(g_fd, buff, BUFF_SIZE);
 		if (ret)
 		{
 			if (buff[0] == BACKSPACE || (buff[0] == ESC && buff[1] == ARROW && buff[2] == 0x33 && buff[3] == 0x7e))
@@ -91,7 +91,7 @@ int	main(int argc, char **argv)
 	initialise_options(&options, argv + 1);
 	if (!options)
 		return (1);
-
+	g_fd = open("/dev/tty", O_RDWR);
 	initialise_program();
 	exited = control_loop(&options);//, &orig_term);
 	restore_terminal();

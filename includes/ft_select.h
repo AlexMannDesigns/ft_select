@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/06 17:38:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 11:45:35 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@
 
 /***** GLOBAL VARIABLES *****/
 
+int				g_fd;
 int				g_window_change;
 struct termios	g_original_term;
 struct termios	g_current_term;

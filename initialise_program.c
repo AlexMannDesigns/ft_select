@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/06 18:40:53 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 11:45:47 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	handle_signal(int sig)
 		signal(SIGTSTP, SIG_DFL);
 		//nb kill and getpid are not permitted functions
 		//kill(getpid(), SIGTSTP);
-		ioctl(open("/dev/tty", O_RDWR), TIOCSTI, "\x1a");
+		ioctl(g_fd, TIOCSTI, "\x1a");
 	}
 	else if (sig == SIGCONT)
 	{
@@ -46,12 +46,12 @@ void	initialise_program()
 
 	name = getenv("TERM");
 	tgetent(NULL, name);
-	tcgetattr(1, &g_original_term);
-	tcgetattr(1, &g_current_term);
+	tcgetattr(g_fd, &g_original_term);
+	tcgetattr(g_fd, &g_current_term);
 	g_current_term.c_cc[VMIN] = 0;
 	g_current_term.c_cc[VTIME] = 1;
-	tcsetattr(1, TCSANOW, &g_current_term);
-	ft_putstr(ALT_SCRN);
+	tcsetattr(g_fd, TCSANOW, &g_current_term);
+	ft_putstr_fd(ALT_SCRN, g_fd);
 	tputs(tgetstr(CURSOR_INVISIBLE, NULL), 1, &my_putc);
 	echo_canon_off();
 	setup_window();

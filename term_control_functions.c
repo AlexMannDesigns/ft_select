@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:18:01 by amann             #+#    #+#             */
-/*   Updated: 2022/08/02 17:09:54 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 11:56:06 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,42 @@
 
 void	position_term_cursor(int y, int x)
 {
-	ft_printf(POSITION_TERM_CURSOR, y, x);
+	char	*y_str;
+	char	*x_str;
+
+	y_str = ft_itoa(y);
+	x_str = ft_itoa(x);
+	if (!y_str || !x_str)
+		return ;
+	ft_putstr_fd("\033[", g_fd);
+	ft_putstr_fd(y_str, g_fd);
+	ft_putstr_fd(";", g_fd);
+	ft_putstr_fd(x_str, g_fd);
+	ft_putstr_fd("H", g_fd);
+	free(y_str);
+	free(x_str);
 }
 
 void	echo_off(void)
 {
 	struct termios	term;
 
-	tcgetattr(1, &term);
+	tcgetattr(g_fd, &term);
 	term.c_lflag &= ~ECHO;
-	tcsetattr(1, TCSANOW, &term);
+	tcsetattr(g_fd, TCSANOW, &term);
 }
 
 void	echo_canon_off(void)
 {
 	struct termios	term;
 
-	tcgetattr(1, &term);
+	tcgetattr(g_fd, &term);
 	term.c_lflag &= ~(ICANON | ECHO);
-	tcsetattr(1, TCSANOW, &term);
+	tcsetattr(g_fd, TCSANOW, &term);
 }
 
 int	my_putc(int c)
 {
-	write(1, &c, 1);
+	write(g_fd, &c, 1);
 	return (c);
 }
