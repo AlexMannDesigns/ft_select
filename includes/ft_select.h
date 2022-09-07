@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/07 11:45:35 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 15:21:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 # define UL_START "\033[4m"
 # define UL_END "\033[24m"
 # define REV_VIDEO "\033[7m"
+# define SUSPEND "\x1a"
 
 /***** KEYBOARD MAPPING *****/
 
@@ -93,6 +94,7 @@ struct termios	g_current_term;
 typedef struct s_option_data
 {
 	char	*name;
+	size_t	len;
 	int		selected;
 	int		cursor;
 }			t_option_data;
