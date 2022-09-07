@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 17:00:54 by amann             #+#    #+#             */
-/*   Updated: 2022/08/02 17:13:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 12:12:57 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	get_cols_rows(int *cols, int *rows)
 {
 	struct winsize	window;
 
-	ioctl(1, TIOCGWINSZ, &window);
+	ioctl(g_fd, TIOCGWINSZ, &window);
 	*cols = window.ws_col;
 	*rows = window.ws_row;
 }
