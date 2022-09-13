@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 17:08:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:37:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	get_window_info(t_window_info *w, t_list *options)
 	if (w->cols_to_display == 0)
 		w->cols_to_display = 1;
 	w->col_height = (w->len / w->cols_to_display) + 1;
-	if (w->col_height >= w->rows)
+	if (w->col_height >= w->rows || w->col_width > w->cols)
 	{
 		position_term_cursor(1, 1);
 		ft_putstr_fd("Make me bigger!!!", g_state.fd);
@@ -68,22 +68,21 @@ int	get_window_info(t_window_info *w, t_list *options)
 	return (1);
 }
 
-void	print_options(t_list *options)
+void	print_options(t_list *options, t_window_info *w)
 {
 	int				i;
 	int				current_col;
-	t_window_info	w;
 	t_option_data	*data;
 
 	ft_putstr_fd(CLEAR_SCRN, g_state.fd);
-	if (!get_window_info(&w, options))
+	if (!get_window_info(w, options))
 		return ;
 	current_col = 1;
 	i = 0;
 	while (options)
 	{
 		data = (t_option_data *) options->content;
-		position_cursor_in_window(w, i, &current_col);
+		position_cursor_in_window(*w, i, &current_col);
 		if (data->selected)
 			ft_putstr_fd(REV_VIDEO, g_state.fd);
 		if (data->cursor)

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:11:21 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 17:05:45 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:33:14 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,131 @@ static void	move_cursor_up(t_list **options)
 	}
 }
 
-void	handle_scroll(t_list **options, char *buff)
+t_list	*move_to_next_column(t_list *current, t_window_info w)
+{
+	int	i;
+
+	i = 0;
+	while (i < w.col_height)
+	{
+		current = current->next;
+		i++;
+	}
+	return (current);
+}
+
+t_list	*loop_to_first_column(t_list **options, t_window_info w, int i)
+{
+	t_list	*current;
+	int		j;
+
+	while (i - w.col_height >= 0)
+		i -= w.col_height;
+	j = 0;
+	current = *options;
+	while (j < i)
+	{
+		current = current->next;
+		j++;
+	}
+	return (current);
+}
+
+void	move_cursor_right(t_list **options, t_window_info w)
+{
+	t_list			*current;
+	t_option_data	*data;
+	int				i;
+
+	current = *options;
+	i = 0;
+	while (current)
+	{
+		data = (t_option_data *) current->content;
+		if (data->cursor)
+		{
+			data->cursor = FALSE;
+			if (i + w.col_height < w.len)
+				current = move_to_next_column(current, w);
+			else
+				current = loop_to_first_column(options, w, i);
+			data = (t_option_data *) current->content;
+			data->cursor = TRUE;
+			return ;
+		}
+		i++;
+		current = current->next;
+	}
+}
+
+t_list	*left_one_column(t_list **options, t_window_info w, int i)
+{
+	t_list	*current;
+	int		j;
+
+	current = *options;
+	j = 0;
+	while (j < i - w.col_height)
+	{
+		current = current->next;
+		j++;
+	}
+	return (current);
+}
+
+t_list	*loop_to_end_column(t_list **options, t_window_info w, int i)
+{
+	t_list	*current;
+	int		j;
+
+	while (i + w.col_height < w.len)
+		i += w.col_height;
+	current = *options;
+	j = 0;
+	while (j < i && current->next)
+	{
+		current = current->next;
+		j++;
+	}
+	return (current);
+}
+
+void	move_cursor_left(t_list **options, t_window_info w)
+{
+	t_list			*current;
+	t_option_data	*data;
+	int				i;
+
+	current = *options;
+	i = 0;
+	while (current)
+	{
+		data = (t_option_data *) current->content;
+		if (data->cursor)
+		{
+			data->cursor = FALSE;
+			if (i - w.col_height >= 0)
+				current = left_one_column(options, w, i);
+			else
+				current = loop_to_end_column(options, w, i);
+			data = (t_option_data *) current->content;
+			data->cursor = TRUE;
+			return ;
+		}
+		i++;
+		current = current->next;
+	}
+}
+
+void	handle_scroll(t_list **options, t_window_info w, char *buff)
 {
 	if (buff[2] == DOWN_ARROW)
 		move_cursor_down(options);
 	else if (buff[2] == UP_ARROW)
 		move_cursor_up(options);
+	else if (buff[2] == RIGHT_ARROW)
+		move_cursor_right(options, w);
+	else if (buff[2] == LEFT_ARROW)
+		move_cursor_left(options, w);
 	setup_window();
 }

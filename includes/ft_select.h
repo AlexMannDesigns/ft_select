@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 16:48:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 17:30:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ size_t	ft_list_len(t_list *lst);
 void	handle_delete(t_list **options);
 
 /* handle_scroll.c */
-void	handle_scroll(t_list **options, char *buff);
+void	handle_scroll(t_list **options, t_window_info w, char *buff);
 
 /* handle_select.c */
 void	handle_select(t_list **options);
@@ -148,7 +148,7 @@ void	initialise_program();
 int		is_delete(char *buff);
 
 /* print_options.c */
-void	print_options(t_list *options);
+void	print_options(t_list *options, t_window_info *w);
 
 /* print_select_result.c */
 void	print_select_result(t_list *options);
