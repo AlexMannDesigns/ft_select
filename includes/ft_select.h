@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/07 15:21:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 13:12:16 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,19 @@ char	**ft_copy_array(char **orig);
 void	ft_remove_from_array(char ***orig, size_t idx);
 
 /* initialise_options.c */
-void	initialise_options(t_list **options, char **argv);
+int		initialise_options(t_list **options, char **argv);
 
 /* intialise_program.c */
 void	initialise_program();
 
+/* is_delete.c */
+int		is_delete(char *buff);
+
 /* print_options.c */
 void	print_options(t_list *options, size_t len);
+
+/* print_select_result.c */
+void	print_select_result(t_list *options);
 
 /* restore_terminal.c */
 void	restore_terminal(void);

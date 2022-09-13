@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/07 14:00:46 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 12:46:16 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	handle_signal(int sig)
 	{
 		restore_terminal();
 		signal(SIGTSTP, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		//nb kill and getpid are not permitted functions
 		//kill(getpid(), SIGTSTP);
 		ioctl(g_fd, TIOCSTI, SUSPEND);

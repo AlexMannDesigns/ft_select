@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdel.c                                        :+:      :+:    :+:   */
+/*   is_delete.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 16:56:47 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 13:26:55 by amann            ###   ########.fr       */
+/*   Created: 2022/09/07 16:48:07 by amann             #+#    #+#             */
+/*   Updated: 2022/09/07 16:49:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "ft_select.h"
 
-void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
+int	is_delete(char *buff)
 {
-	if ((*alst) != NULL)
-	{
-		del((*alst)->content, (*alst)->content_size);
-		ft_lstdel(&(*alst)->next, del);
-		free(*alst);
-		(*alst) = NULL;
-	}
+	if (buff[0] == ESC
+		&& buff[1] == ARROW
+		&& buff[2] == 0x33
+		&& buff[3] == 0x7e)
+		return (TRUE);
+	return (FALSE);
 }

@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   delete_node.c                                      :+:      :+:    :+:   */
+/*   print_select_result.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/05 16:21:55 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 13:26:46 by amann            ###   ########.fr       */
+/*   Created: 2022/09/07 16:39:12 by amann             #+#    #+#             */
+/*   Updated: 2022/09/07 16:39:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	delete_node(void *content, size_t content_size)
+void	print_select_result(t_list *options)
 {
 	t_option_data	*data;
+	int				first;
 
-	data = (t_option_data *) content;
-	if (data)
+	first = TRUE;
+	while (options)
 	{
-		ft_strdel(&(data->name));
-		data->selected = 0;
-		data->cursor = 0;
+		data = (t_option_data *) options->content;
+		if (data->selected)
+		{
+			if (first)
+				first = FALSE;
+			else
+				ft_putstr(" ");
+			ft_putstr(data->name);
+		}
+		options = options->next;
 	}
-	ft_memdel(&content);
-	content_size = 0;
 }

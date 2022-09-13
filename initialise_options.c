@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 12:43:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/07 15:20:41 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 13:29:27 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
  *	each sub-struct of our linked list will contain the name of the option,
  *	which will be displayed in the terminal, and an int initialised to FALSE
  *	as this will always not be selected when the program starts.
+ *
+ *	No memory needs to be freed here because if something goes wrong we return
+ *	NULL and the whole list gets deleted.
  */
 
 static t_option_data	*create_option_data_struct(char *option_name, int *first)
@@ -41,57 +44,37 @@ static t_option_data	*create_option_data_struct(char *option_name, int *first)
 
 }
 
-void	initialise_options(t_list **options, char **argv)
+static int	delete_list(t_list **options)
 {
-	size_t	i;
+	ft_lstdel(options, &(delete_node));
+	return (0);
+}
+
+int		initialise_options(t_list **options, char **argv)
+{
 	int		first;
 	t_list *current_node;
 
 	*options = (t_list *) ft_memalloc(sizeof(t_list));
 	if (!(*options))
-	{
-		//free list and set options to NULL
-		ft_lstdel(options, &(delete_node));
-		return ;
-	}
+		return (delete_list(options));
 	current_node = *options;
 	first = TRUE;
-	i = 0;
-	while (argv[i])
+	while (*argv)
 	{
-		//create options struct in current node
-		(current_node)->content = (void *) create_option_data_struct(argv[i], &first);
-		if (!((current_node)->content))
-		{
-			//free list and set options to NULL
-			ft_lstdel(options, &(delete_node));
-			return ;
-		}
-		//content size will always be the size of an option_data struct
+		current_node->content = (void *) create_option_data_struct(*argv, &first);
+		if (!(current_node->content))
+			return (delete_list(options));
 		current_node->content_size = sizeof(t_option_data);
 		current_node->next = NULL;
-		//check if list will continue and allocate mem if appropriate
-		if (argv[i + 1])
+		if (argv[1])
 		{
 			current_node->next = (t_list *) ft_memalloc(sizeof(t_list));
 			if (!current_node)
-			{
-				//free list and set options to NULL
-				ft_lstdel(options, &(delete_node));
-				return ;
-			}
+				return (delete_list(options));
 		}
 		current_node = current_node->next;
-		i++;
+		argv++;
 	}
-/*	ft_printf("current : %p | original : %p\n", (void *) current_node, (void *) *options);
-	t_option_data *current_data;
-	current_node = *options;
-	while (current_node)
-	{
-		current_data = (t_option_data *) (current_node)->content;
-		ft_printf("%s\n", current_data->name);
-		current_node = (current_node)->next;
-	}
-	*/
+	return (1);
 }

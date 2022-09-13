@@ -6,13 +6,30 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/07 15:29:41 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/07 18:05:45 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-static void	term_cursor_control(int rows, int cols, int len, int i, t_option_data *data, int display_cols)
+static int	get_max_option_length(t_list *options)
+{
+	int max;
+	t_option_data *current;
+
+	max = 0;
+	while (options)
+	{
+		current = (t_option_data *) options->content;
+		if ((int) current->len > max)
+			max = current->len;
+		options = options->next;
+	}
+	return (max);
+}
+
+
+static void	term_cursor_control(int rows, int cols, int len, int i, t_option_data *data, int display_cols, int max)
 {
 	int	x;
 	int	y;
@@ -30,23 +47,27 @@ static void	term_cursor_control(int rows, int cols, int len, int i, t_option_dat
 		current_col = 1;
 		while (i > col_len * current_col)
 			current_col++;
-		//1st step takes us to end of column;
-		x = (current_col * (cols/display_cols/2));// - ((cols / display_cols / 2) - (data->len / 2));
+		//x = (current_col * (cols/display_cols)) - data->len/2 - (cols/display_cols/2);
+		x = ((current_col - 1) * (max + 2)) + ((cols/2) - (max * (display_cols/2)));
+		if (display_cols % 2 != 0)
+		{
+			x -= (max + 2) / 2;
+		}
 		if (i > col_len)
 		{
 			i = i - ((current_col - 1) * col_len) - 1;
 		}
-		y = (rows/2) - (col_len/2) + (i ) + 1;
+		y = (rows/2) - (col_len/2) + i + 1;
 	}
 	position_term_cursor(y, x);
 }
 
-static int	get_cols_to_display(int len, int cols, int rows)//, t_list *options)
+static int	get_cols_to_display(int len, int cols, int rows, int max)
 {
 	int res;
 
-	if (cols)
-		;
+	if (max > cols/2)
+		return (1);
 	if (len + 1 > rows)
 	{
 		res = 1;
@@ -67,19 +88,22 @@ void	print_options(t_list *options, size_t len)
 	int				cols;
 	int				rows;
 	int				cols_to_display;
+	int				max;
 	t_option_data	*data;
 
 	if (len == 0 || !options)
 		return ;
+
 	get_cols_rows(&cols, &rows);
-	cols_to_display = get_cols_to_display((int) len, cols, rows);//, options);
+	max = get_max_option_length(options);
+	cols_to_display = get_cols_to_display((int) len, cols, rows, max);
 	ft_putstr_fd(CLEAR_SCRN, g_fd);
 	i = 0;
 	while (options)
 	{
 		data = (t_option_data *) options->content;
 
-		term_cursor_control(rows, cols, (int) len, (int) i, data, cols_to_display);
+		term_cursor_control(rows, cols, (int) len, (int) i, data, cols_to_display, max);
 
 		if (data->selected)
 			ft_putstr_fd(REV_VIDEO, g_fd);
