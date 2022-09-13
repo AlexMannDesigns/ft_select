@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/07 18:05:45 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 13:46:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	print_options(t_list *options, size_t len)
 	get_cols_rows(&cols, &rows);
 	max = get_max_option_length(options);
 	cols_to_display = get_cols_to_display((int) len, cols, rows, max);
-	ft_putstr_fd(CLEAR_SCRN, g_fd);
+	ft_putstr_fd(CLEAR_SCRN, g_state.fd);
 	i = 0;
 	while (options)
 	{
@@ -106,18 +106,18 @@ void	print_options(t_list *options, size_t len)
 		term_cursor_control(rows, cols, (int) len, (int) i, data, cols_to_display, max);
 
 		if (data->selected)
-			ft_putstr_fd(REV_VIDEO, g_fd);
+			ft_putstr_fd(REV_VIDEO, g_state.fd);
 		if (data->cursor)
-			ft_putstr_fd(UL_START, g_fd);
-		ft_putstr_fd(YELLOW, g_fd);
-		ft_putstr_fd(data->name, g_fd);
-		ft_putstr_fd(RESET_COLOUR, g_fd);
+			ft_putstr_fd(UL_START, g_state.fd);
+		ft_putstr_fd(YELLOW, g_state.fd);
+		ft_putstr_fd(data->name, g_state.fd);
+		ft_putstr_fd(RESET_COLOUR, g_state.fd);
 		if (data->cursor)
-			ft_putstr_fd(UL_END, g_fd);
+			ft_putstr_fd(UL_END, g_state.fd);
 		if (options->next)
-			ft_putchar_fd('\n', g_fd);
+			ft_putchar_fd('\n', g_state.fd);
 		options = options->next;
 		i++;
 	}
-	g_window_change = FALSE;
+	g_state.window_change = FALSE;
 }

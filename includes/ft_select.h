@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 13:12:16 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:03:49 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,17 @@
 # define FALSE 0
 # define BUFF_SIZE 15
 
-/***** GLOBAL VARIABLES *****/
-
-int				g_fd;
-int				g_window_change;
-struct termios	g_original_term;
-struct termios	g_current_term;
-
 /***** STRUCTS *****/
 
-typedef struct s_option_data
+typedef struct	s_state
+{
+	int				fd;
+	int				window_change;
+	struct termios	original_term;
+	struct termios	current_term;
+}					t_state;
+
+typedef struct	s_option_data
 {
 	char	*name;
 	size_t	len;
@@ -99,10 +100,17 @@ typedef struct s_option_data
 	int		cursor;
 }			t_option_data;
 
+/***** GLOBAL VARIABLES *****/
+
+t_state	g_state;
+
 /***** FUNCTION PROTOTYPES *****/
 
 /* delete_node.c */
 void	delete_node(void *content, size_t content_size);
+
+/* enable_raw_mode.c */
+void	enable_raw_mode(void);
 
 /* ft_list_len.c */
 size_t	ft_list_len(t_list *lst);

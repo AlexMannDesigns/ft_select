@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 13:13:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 14:31:36 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static int	control_loop(t_list **options)// struct termios *orig)
 	while (1 && *options)
 	{
 		len = ft_list_len(*options);
-		if (g_window_change)
+		if (g_state.window_change)
 			print_options(*options, len);
-		ret = read(g_fd, buff, BUFF_SIZE);
+		ret = read(g_state.fd, buff, BUFF_SIZE);
 		if (ret)
 		{
 			if (buff[0] == BACKSPACE || is_delete(buff))
@@ -62,7 +62,6 @@ int	main(int argc, char **argv)
 	options = NULL;
 	if (!initialise_options(&options, argv + 1) || !options)
 		return (1);
-	g_fd = open("/dev/tty", O_RDWR);
 	initialise_program();
 	exited = control_loop(&options);//, &orig_term);
 	restore_terminal();
