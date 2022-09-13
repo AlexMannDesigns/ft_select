@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 18:37:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:56:44 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	position_cursor_in_window(t_window_info w, int i, int *current_col)
 	int			x;
 	int			y;
 
-	if (w.cols_to_display >= w.len)
+	if (w.len < w.rows)
 	{
-		position_term_cursor(1, i * w.col_width);
+		position_term_cursor(i + 1, 0);
 		return ;
 	}
 	if (i >= (*current_col * w.col_height))
@@ -58,7 +58,10 @@ int	get_window_info(t_window_info *w, t_list *options)
 	w->cols_to_display = (w->cols / w->col_width);
 	if (w->cols_to_display == 0)
 		w->cols_to_display = 1;
-	w->col_height = (w->len / w->cols_to_display) + 1;
+	if (w->len < w->rows)
+		w->col_height = w->len;
+	else
+		w->col_height = (w->len / w->cols_to_display) + 1;
 	if (w->col_height >= w->rows || w->col_width > w->cols)
 	{
 		position_term_cursor(1, 1);

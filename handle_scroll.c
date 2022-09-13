@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:11:21 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 18:33:14 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:55:25 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,8 +215,8 @@ void	handle_scroll(t_list **options, t_window_info w, char *buff)
 	else if (buff[2] == UP_ARROW)
 		move_cursor_up(options);
 	else if (buff[2] == RIGHT_ARROW)
-		move_cursor_right(options, w);
+			move_cursor_right(options, w);
 	else if (buff[2] == LEFT_ARROW)
-		move_cursor_left(options, w);
+			move_cursor_left(options, w);
 	setup_window();
 }
