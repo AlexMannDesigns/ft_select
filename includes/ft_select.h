@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 14:03:49 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/13 16:48:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,16 @@ typedef struct	s_option_data
 	int		cursor;
 }			t_option_data;
 
+typedef struct	s_window_info
+{
+	int		cols;
+	int		rows;
+	int		len;
+	int		col_width;
+	int		col_height;
+	int		cols_to_display;
+}			t_window_info;
+
 /***** GLOBAL VARIABLES *****/
 
 t_state	g_state;
@@ -138,7 +148,7 @@ void	initialise_program();
 int		is_delete(char *buff);
 
 /* print_options.c */
-void	print_options(t_list *options, size_t len);
+void	print_options(t_list *options);
 
 /* print_select_result.c */
 void	print_select_result(t_list *options);
