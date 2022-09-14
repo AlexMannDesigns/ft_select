@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 17:30:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/14 12:27:30 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,12 @@ typedef struct	s_window_info
 	int		col_height;
 	int		cols_to_display;
 }			t_window_info;
+
+typedef struct s_print_str
+{
+	char	*str;
+	size_t	len;
+}			t_print_str;
 
 /***** GLOBAL VARIABLES *****/
 
