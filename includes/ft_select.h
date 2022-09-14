@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/14 12:27:30 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/14 16:14:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@
 # define UL_END "\033[24m"
 # define REV_VIDEO "\033[7m"
 # define SUSPEND "\x1a"
+# define RESET_DEFAULT_COLOUR "\033[0m\033[33m"
+# define CLEAR_SCRN_SET_YELLOW "\x1B[2J\033[33m"
+# define UL_REV_VIDEO_START "\033[4m\033[7m"
 
 /***** KEYBOARD MAPPING *****/
 
