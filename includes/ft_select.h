@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 16:46:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 18:08:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@
 # define TRUE 1
 # define FALSE 0
 # define BUFF_SIZE 15
-
+# define NO_TERM "ft_select: error: could not find TERM environment variable\n"
 /***** STRUCTS *****/
 
 typedef struct	s_state

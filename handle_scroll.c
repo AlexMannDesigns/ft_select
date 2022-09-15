@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:11:21 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 17:18:28 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 18:04:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static void	move_cursor_down(t_list **options)
 			toggle_cursor(current);
 			if (current->next)
 			{
-				current = current->next;
-				toggle_cursor(current);
+				toggle_cursor(current->next);
 				g_state.cursor_idx++;
 			}
 			else

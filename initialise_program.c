@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 15:04:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 18:09:01 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	initialise_program(void)
 	name = getenv("TERM");
 	if (!name)
 	{
-		ft_putstr_fd("ft_select: error: could not find TERM environment variable\n", g_state.fd);
+		ft_putstr_fd(NO_TERM, g_state.fd);
 		exit(EXIT_FAILURE);
 	}
 	tgetent(NULL, name);
@@ -77,9 +77,6 @@ void	initialise_program(void)
 	setup_window();
 	signal(SIGWINCH, handle_signal);
 	signal(SIGINT, handle_signal);
-
 	signal(SIGTSTP, handle_signal);
 	signal(SIGCONT, handle_signal);
-//	if (signal(SIGSTOP, handle_signal) == SIG_ERR)
-//		handle_signal(SIGSTOP);
 }

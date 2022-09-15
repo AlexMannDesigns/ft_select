@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 13:56:45 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 16:53:15 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 18:09:50 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	loop_to_first_column(t_list **options, t_window_info w)
 		if (i == prev_idx)
 		{
 			toggle_cursor(current);
-			break;
+			return ;
 		}
 		i++;
 		current = current->next;
