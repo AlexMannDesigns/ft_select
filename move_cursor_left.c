@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 13:53:46 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 17:05:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 17:57:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	loop_to_end_column(t_list **options, t_window_info w)
 
 	prev_idx = g_state.cursor_idx;
 	g_state.cursor_idx += (w.col_height * (w.cols_to_display - 1));
-	if (g_state.cursor_idx > w.len)
+	if (g_state.cursor_idx > w.len - 1)
 		g_state.cursor_idx -= w.col_height;
 	i = 0;
 	current = *options;
