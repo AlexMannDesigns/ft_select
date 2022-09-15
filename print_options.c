@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/14 16:14:07 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 16:13:20 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,10 @@ int	get_window_info(t_window_info *w, t_list *options)
 	if (w->cols_to_display == 0)
 		w->cols_to_display = 1;
 	if (w->len < w->rows)
+	{
 		w->col_height = w->len;
+		w->cols_to_display = 1;
+	}
 	else
 		w->col_height = (w->len / w->cols_to_display) + 1;
 	if (w->col_height >= w->rows || w->col_width > w->cols)
@@ -164,7 +167,6 @@ void	print_str_add(t_print_str *p, char *add)
 	ft_strcpy(new_str, p->str);
 	ft_strcpy(new_str + p->len, add);
 	p->len += new_len;
-	//new_str[p->len] = '\0';
 	ft_strdel(&(p->str));
 	p->str = new_str;
 }

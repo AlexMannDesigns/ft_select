@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setup_window.c                                     :+:      :+:    :+:   */
+/*   toggle_cursor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/01 17:00:54 by amann             #+#    #+#             */
-/*   Updated: 2022/09/14 17:23:56 by amann            ###   ########.fr       */
+/*   Created: 2022/09/15 16:45:21 by amann             #+#    #+#             */
+/*   Updated: 2022/09/15 16:45:58 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-void	get_cols_rows(int *cols, int *rows)
+void	toggle_cursor(t_list *current)
 {
-	struct winsize	window;
+	t_option_data	*data;
 
-	ioctl(g_state.fd, TIOCGWINSZ, &window);
-	*cols = window.ws_col;
-	*rows = window.ws_row;
-}
-
-void	setup_window(void)
-{
-	g_state.window_change = TRUE;
+	data = (t_option_data *) current->content;
+	if (data->cursor)
+		data->cursor = FALSE;
+	else
+		data->cursor = TRUE;
 }

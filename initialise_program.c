@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 14:24:35 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 15:04:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
  * we can then run initialise_program to display the ft_select interface.
  */
 
-static void	handle_signal(int sig)
+void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
-		return ;
+	{
+		restore_terminal();
+		exit(EXIT_SUCCESS);
+	}
 	else if (sig == SIGWINCH)
 		setup_window();
 	else if (sig == SIGTSTP)
@@ -31,8 +34,6 @@ static void	handle_signal(int sig)
 		restore_terminal();
 		signal(SIGTSTP, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		//nb kill and getpid are not permitted functions
-		//kill(getpid(), SIGTSTP);
 		ioctl(g_state.fd, TIOCSTI, SUSPEND);
 	}
 	else if (sig == SIGCONT)
@@ -56,12 +57,18 @@ void	make_cursor_invisible(void)
 	tputs(tgetstr(CURSOR_INVISIBLE, NULL), 1, &my_putc);
 }
 
-void	initialise_program()
+void	initialise_program(void)
 {
 	char	*name;
 
 	g_state.fd = open("/dev/tty", O_RDWR);
+	g_state.cursor_idx = 0;
 	name = getenv("TERM");
+	if (!name)
+	{
+		ft_putstr_fd("ft_select: error: could not find TERM environment variable\n", g_state.fd);
+		exit(EXIT_FAILURE);
+	}
 	tgetent(NULL, name);
 	save_original_term_status();
 	move_to_alt_screen();
@@ -70,6 +77,9 @@ void	initialise_program()
 	setup_window();
 	signal(SIGWINCH, handle_signal);
 	signal(SIGINT, handle_signal);
+
 	signal(SIGTSTP, handle_signal);
 	signal(SIGCONT, handle_signal);
+//	if (signal(SIGSTOP, handle_signal) == SIG_ERR)
+//		handle_signal(SIGSTOP);
 }

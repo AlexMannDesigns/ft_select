@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 12:43:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 13:29:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/14 17:26:39 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  *	NULL and the whole list gets deleted.
  */
 
-static t_option_data	*create_option_data_struct(char *option_name, int *first)
+static t_option_data	*create_opt_data_struct(char *option_name, int *first)
 {
 	t_option_data	*new;
 
@@ -41,7 +41,6 @@ static t_option_data	*create_option_data_struct(char *option_name, int *first)
 	else
 		new->cursor = FALSE;
 	return (new);
-
 }
 
 static int	delete_list(t_list **options)
@@ -50,10 +49,10 @@ static int	delete_list(t_list **options)
 	return (0);
 }
 
-int		initialise_options(t_list **options, char **argv)
+int	initialise_options(t_list **options, char **argv)
 {
 	int		first;
-	t_list *current_node;
+	t_list	*current_node;
 
 	*options = (t_list *) ft_memalloc(sizeof(t_list));
 	if (!(*options))
@@ -62,7 +61,7 @@ int		initialise_options(t_list **options, char **argv)
 	first = TRUE;
 	while (*argv)
 	{
-		current_node->content = (void *) create_option_data_struct(*argv, &first);
+		current_node->content = (void *) create_opt_data_struct(*argv, &first);
 		if (!(current_node->content))
 			return (delete_list(options));
 		current_node->content_size = sizeof(t_option_data);

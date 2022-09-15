@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 17:01:52 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 17:06:13 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 17:39:06 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,18 @@ static void	delete_first(t_list *current, t_option_data *data, t_list **options)
 
 static void	delete_middle_or_end(t_list *current, t_list **options)
 {
-	t_option_data	*data;
 	t_list			*temp;
 
 	temp = current->next->next;
 	ft_lstdelone(&(current->next), &delete_node);
 	current->next = temp;
 	if (temp)
-		data = (t_option_data *) current->next->content;
+		toggle_cursor(current->next);
 	else
-		data = (t_option_data *) (*options)->content;
-	data->cursor = TRUE;
+	{
+		toggle_cursor(*options);
+		g_state.cursor_idx = 0;
+	}
 }
 
 void	handle_delete(t_list **options)

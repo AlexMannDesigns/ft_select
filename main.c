@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 17:20:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 11:35:53 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static int	control_loop(t_list **options)
 		ret = read(g_state.fd, buff, BUFF_SIZE);
 		if (ret)
 		{
+			if (ret == -1)
+				handle_signal(SIGCONT);
 			exit = process_keys(options, w, buff);
 			if (exit == 0)
 				return (0);
@@ -53,7 +55,6 @@ static int	control_loop(t_list **options)
 	}
 	return (-1);
 }
-
 
 int	main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/14 16:14:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 16:46:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct	s_state
 {
 	int				fd;
 	int				window_change;
+	int				cursor_idx;
 	struct termios	original_term;
 	struct termios	current_term;
 }					t_state;
@@ -143,6 +144,9 @@ void	handle_scroll(t_list **options, t_window_info w, char *buff);
 /* handle_select.c */
 void	handle_select(t_list **options);
 
+/* handle_signal.c */
+void	handle_signal(int sig);
+
 /* helpers.c */
 char	**ft_copy_array(char **orig);
 void	ft_remove_from_array(char ***orig, size_t idx);
@@ -155,6 +159,12 @@ void	initialise_program();
 
 /* is_delete.c */
 int		is_delete(char *buff);
+
+/* move_cursor_left.c */
+void	move_cursor_left(t_list **options, t_window_info w);
+
+/* move_cursor_right.c */
+void	move_cursor_right(t_list **options, t_window_info w);
 
 /* print_options.c */
 void	print_options(t_list *options, t_window_info *w);
@@ -174,5 +184,8 @@ void	echo_off();
 void	echo_canon_off();
 int		my_putc(int c);
 void	position_term_cursor(int y, int x);
+
+/* toggle_cursor.c */
+void	toggle_cursor(t_list *current);
 
 #endif

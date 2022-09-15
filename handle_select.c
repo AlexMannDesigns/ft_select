@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:02:23 by amann             #+#    #+#             */
-/*   Updated: 2022/09/05 16:04:51 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/15 17:23:39 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,15 @@ static void	scroll_to_next(t_option_data *data, t_list *cur, t_list **options)
 {
 	data->cursor = FALSE;
 	if (cur->next)
+	{
 		data = (t_option_data *) cur->next->content;
+		g_state.cursor_idx++;
+	}
 	else
-		data = (t_option_data *) (*options)->content;
+	{
+		data = (t_option_data *)(*options)->content;
+		g_state.cursor_idx = 0;
+	}
 	data->cursor = TRUE;
 }
 
