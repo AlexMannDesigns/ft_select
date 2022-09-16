@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/15 16:46:34 by amann            ###   ########.fr        #
+#    Updated: 2022/09/16 12:29:52 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = ft_select
 FLAGS = -Wall -Wextra -Werror -ansi -std=c99 -pedantic -O3
 SRCS = restore_terminal.c delete_node.c ft_list_len.c handle_delete.c			\
 		handle_scroll.c handle_select.c helpers.c initialise_options.c			\
-		initialise_program.c is_delete.c main.c									\
+		initialise_program.c is_delete.c main.c move_to_idx.c					\
 		move_cursor_left.c move_cursor_right.c print_options.c					\
 		print_select_result.c setup_window.c term_control_functions.c			\
 		enable_raw_mode.c toggle_cursor.c

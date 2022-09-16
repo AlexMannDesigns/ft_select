@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 18:08:37 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/16 12:50:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,9 @@ void	move_cursor_left(t_list **options, t_window_info w);
 
 /* move_cursor_right.c */
 void	move_cursor_right(t_list **options, t_window_info w);
+
+/* move_to_idx.c */
+t_list	*move_to_idx(t_list *current, int from, int to);
 
 /* print_options.c */
 void	print_options(t_list *options, t_window_info *w);

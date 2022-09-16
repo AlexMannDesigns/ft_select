@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 15:11:21 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 18:04:04 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/16 12:36:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,18 @@
 static void	move_cursor_down(t_list **options)
 {
 	t_list			*current;
-	int				i;
 
-	i = 0;
-	current = *options;
-	while (current)
+	current = move_to_idx(*options, 0, g_state.cursor_idx);
+	toggle_cursor(current);
+	if (current->next)
 	{
-		if (i == g_state.cursor_idx)
-		{
-			toggle_cursor(current);
-			if (current->next)
-			{
-				toggle_cursor(current->next);
-				g_state.cursor_idx++;
-			}
-			else
-			{
-				toggle_cursor(*options);
-				g_state.cursor_idx = 0;
-			}
-			break ;
-		}
-		current = current->next;
-		i++;
+		toggle_cursor(current->next);
+		g_state.cursor_idx++;
+	}
+	else
+	{
+		toggle_cursor(*options);
+		g_state.cursor_idx = 0;
 	}
 }
 
@@ -75,7 +64,6 @@ static void	move_cursor_up(t_list **options)
 {
 	t_list			*current;
 	t_option_data	*data;
-	int				i;
 
 	current = *options;
 	data = (t_option_data *) current->content;
@@ -83,19 +71,10 @@ static void	move_cursor_up(t_list **options)
 		move_cursor_to_end(data, current);
 	else
 	{
-		i = 0;
-		while (current->next)
-		{
-			if (i == g_state.cursor_idx - 1)
-			{
-				toggle_cursor(current->next);
-				toggle_cursor(current);
-				g_state.cursor_idx--;
-				break ;
-			}
-			current = current->next;
-			i++;
-		}
+		current = move_to_idx(current, 0, g_state.cursor_idx - 1);
+		toggle_cursor(current->next);
+		toggle_cursor(current);
+		g_state.cursor_idx--;
 	}
 }
 
