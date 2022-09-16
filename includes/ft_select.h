@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 17:51:40 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/16 19:58:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@
 # define TRUE 1
 # define FALSE 0
 # define BUFF_SIZE 15
+# define PRINT_BUFF_SIZE 2048
 # define NO_TERM "ft_select: error: could not find TERM environment variable\n"
+
 /***** STRUCTS *****/
 
 typedef struct	s_state
@@ -119,6 +121,7 @@ typedef struct s_print_str
 {
 	char	*str;
 	size_t	len;
+	size_t	count;
 }			t_print_str;
 
 /***** GLOBAL VARIABLES *****/

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:50:32 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 17:53:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/16 19:14:50 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	get_max_option_length(t_list *options)
 {
-	int max;
-	t_option_data *current;
+	int				max;
+	t_option_data	*current;
 
 	max = 0;
 	while (options)
@@ -55,4 +55,3 @@ int	get_window_info(t_window_info *w, t_list *options)
 	}
 	return (1);
 }
-
