@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 12:50:04 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/16 17:51:40 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@
 
 # define CURSOR_INVISIBLE "vi"
 # define CURSOR_NORMAL "ve"
+# define CURSOR_MOVE "cm"
 
 /***** MISC MACROS *****/
 
@@ -134,6 +135,9 @@ void	enable_raw_mode(void);
 
 /* ft_list_len.c */
 size_t	ft_list_len(t_list *lst);
+
+/* get_window_info.c */
+int	get_window_info(t_window_info *w, t_list *options);
 
 /* handle_delete.c */
 void	handle_delete(t_list **options);
