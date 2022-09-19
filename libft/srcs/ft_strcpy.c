@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 16:44:11 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 20:02:43 by amann            ###   ########.fr       */
+/*   Updated: 2021/12/03 16:25:58 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*ft_strcpy(char *dst, const char *src)
 {
 	size_t	i;
 
-	if (!dst || !src)
-		return (NULL);
 	i = 0;
 	while (src[i] != '\0')
 	{

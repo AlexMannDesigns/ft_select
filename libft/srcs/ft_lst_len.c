@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_list_len.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/11 15:31:24 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 11:14:09 by amann            ###   ########.fr       */
+/*   Created: 2022/09/05 11:31:18 by amann             #+#    #+#             */
+/*   Updated: 2022/09/19 16:15:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+size_t	ft_lst_len(t_list *lst)
 {
-	if (!s || !fd)
-		return ;
-	if (write(fd, s, ft_strlen(s)))
+	size_t	len;
+
+	len = 0;
+	while (lst)
 	{
-		return ;
+		len++;
+		lst = lst->next;
 	}
+	return (len);
 }

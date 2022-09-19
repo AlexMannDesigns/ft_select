@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_is_valid_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/11 15:31:24 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 11:14:09 by amann            ###   ########.fr       */
+/*   Created: 2022/07/25 14:44:32 by amann             #+#    #+#             */
+/*   Updated: 2022/07/25 15:07:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+int	ft_is_valid_path(char *path)
 {
-	if (!s || !fd)
-		return ;
-	if (write(fd, s, ft_strlen(s)))
-	{
-		return ;
-	}
+	struct stat	temp;
+
+	if (lstat(path, &temp) != -1)
+		return (1);
+	return (0);
 }

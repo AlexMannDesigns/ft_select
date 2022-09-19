@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 12:08:48 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/19 16:43:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@
 
 /***** STRUCTS *****/
 
-typedef struct	s_state
+typedef struct s_state
 {
 	int				fd;
 	int				window_change;
@@ -99,7 +99,7 @@ typedef struct	s_state
 	struct termios	current_term;
 }					t_state;
 
-typedef struct	s_option_data
+typedef struct s_option_data
 {
 	char	*name;
 	size_t	len;
@@ -107,7 +107,7 @@ typedef struct	s_option_data
 	int		cursor;
 }			t_option_data;
 
-typedef struct	s_window_info
+typedef struct s_window_info
 {
 	int		cols;
 	int		rows;
@@ -144,7 +144,7 @@ void	enable_raw_mode(void);
 size_t	ft_list_len(t_list *lst);
 
 /* get_window_info.c */
-int	get_window_info(t_window_info *w, t_list *options);
+int		get_window_info(t_window_info *w, t_list *options);
 
 /* handle_delete.c */
 void	handle_delete(t_list **options);
@@ -196,11 +196,8 @@ void	restore_terminal(void);
 void	setup_window();
 void	get_cols_rows(int *cols, int *rows);
 
-/* term_control_functions.c */
-void	echo_off();
-void	echo_canon_off();
+/* my_putc.c */
 int		my_putc(int c);
-void	position_term_cursor(int y, int x);
 
 /* toggle_cursor.c */
 void	toggle_cursor(t_list *current);

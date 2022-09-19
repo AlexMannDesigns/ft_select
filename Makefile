@@ -6,19 +6,18 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/19 12:09:12 by amann            ###   ########.fr        #
+#    Updated: 2022/09/19 16:45:05 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_select
-FLAGS = -Wall -Wextra -Werror -ansi -std=c99 -pedantic -O3
-SRCS = restore_terminal.c delete_node.c ft_list_len.c get_window_info.c			\
-		handle_delete.c	handle_scroll.c handle_select.c helpers.c 				\
+FLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O3
+SRCS = delete_node.c display_usage.c enable_raw_mode.c get_window_info.c		\
+		handle_delete.c	handle_scroll.c handle_select.c handle_signal.c			\
 		initialise_options.c initialise_program.c is_delete.c main.c			\
-		move_to_idx.c move_cursor_left.c move_cursor_right.c print_options.c	\
-		print_select_result.c setup_window.c term_control_functions.c			\
-		enable_raw_mode.c toggle_cursor.c display_usage.c handle_signal.c		\
-		position_cursor_in_window.c
+		move_to_idx.c move_cursor_left.c move_cursor_right.c my_putc.c			\
+		position_cursor_in_window.c print_select_result.c print_options.c		\
+		restore_terminal.c setup_window.c toggle_cursor.c
 OBJ = $(SRCS:%.c=%.o)
 LIB_DIR = libft/
 HEADER = -I includes/ -I $(LIB_DIR)includes

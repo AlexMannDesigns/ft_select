@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:50:32 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 11:57:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/19 16:09:01 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	get_max_option_length(t_list *options)
 int	get_window_info(t_window_info *w, t_list *options)
 {
 	g_state.window_change = FALSE;
-	w->len = (int) ft_list_len(options);
+	w->len = (int) ft_lst_len(options);
 	if (w->len == 0)
 		return (0);
 	get_cols_rows(&(w->cols), &(w->rows));

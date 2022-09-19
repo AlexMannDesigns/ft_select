@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   term_control_functions.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/11 15:31:24 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 11:14:09 by amann            ###   ########.fr       */
+/*   Created: 2022/08/01 17:18:01 by amann             #+#    #+#             */
+/*   Updated: 2022/09/19 16:42:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "ft_select.h"
 
-void	ft_putstr_fd(char const *s, int fd)
+int	my_putc(int c)
 {
-	if (!s || !fd)
-		return ;
-	if (write(fd, s, ft_strlen(s)))
-	{
-		return ;
-	}
+	write(g_state.fd, &c, 1);
+	return (c);
 }
