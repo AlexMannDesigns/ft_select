@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:50:32 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 19:14:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/19 11:57:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int	get_window_info(t_window_info *w, t_list *options)
 		ft_putstr_fd("Make me bigger!!!", g_state.fd);
 		return (0);
 	}
+	w->current_col = 1;
 	return (1);
 }

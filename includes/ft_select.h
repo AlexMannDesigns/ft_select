@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 19:58:37 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/19 12:08:48 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct	s_window_info
 	int		col_width;
 	int		col_height;
 	int		cols_to_display;
+	int		current_col;
 }			t_window_info;
 
 typedef struct s_print_str
@@ -132,6 +133,9 @@ t_state	g_state;
 
 /* delete_node.c */
 void	delete_node(void *content, size_t content_size);
+
+/* display_usage.c */
+void	display_usage(void);
 
 /* enable_raw_mode.c */
 void	enable_raw_mode(void);
@@ -175,6 +179,9 @@ void	move_cursor_right(t_list **options, t_window_info w);
 
 /* move_to_idx.c */
 t_list	*move_to_idx(t_list *current, int from, int to);
+
+/* position_cursor_in_window.c */
+char	*position_cursor_in_window(t_window_info *w, int i);
 
 /* print_options.c */
 void	print_options(t_list *options, t_window_info *w);

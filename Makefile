@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/16 17:52:54 by amann            ###   ########.fr        #
+#    Updated: 2022/09/19 12:09:12 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRCS = restore_terminal.c delete_node.c ft_list_len.c get_window_info.c			\
 		initialise_options.c initialise_program.c is_delete.c main.c			\
 		move_to_idx.c move_cursor_left.c move_cursor_right.c print_options.c	\
 		print_select_result.c setup_window.c term_control_functions.c			\
-		enable_raw_mode.c toggle_cursor.c
+		enable_raw_mode.c toggle_cursor.c display_usage.c handle_signal.c		\
+		position_cursor_in_window.c
 OBJ = $(SRCS:%.c=%.o)
 LIB_DIR = libft/
 HEADER = -I includes/ -I $(LIB_DIR)includes

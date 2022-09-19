@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/15 11:35:53 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/19 10:47:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 	int				exited;
 
 	if (argc == 1)
-		return (0);
+		display_usage();
 	options = NULL;
 	if (!initialise_options(&options, argv + 1) || !options)
 		return (1);
