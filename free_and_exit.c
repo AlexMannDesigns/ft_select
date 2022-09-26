@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   term_control_functions.c                           :+:      :+:    :+:   */
+/*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/01 17:18:01 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 15:07:42 by amann            ###   ########.fr       */
+/*   Created: 2022/09/26 15:28:51 by amann             #+#    #+#             */
+/*   Updated: 2022/09/26 15:29:21 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-int	my_putc(int c)
+void	free_and_exit(t_list **options)
 {
-	write(g_state.fd, &c, 1);
-	return (c);
+	print_error(MALLOC_ERR, TRUE);
+	ft_lstdel(options, &delete_node);
+	exit(EXIT_FAILURE);
 }

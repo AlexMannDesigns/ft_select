@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 14:41:46 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 15:30:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@
 # define MALLOC_ERR "ft_select: error: malloc failed\n"
 # define OPEN_ERR "ft_select: error: open failed\n"
 # define READ_ERR "ft_select: error: read failed\n"
-# define WELCOME "Welcome to ft_select!"
+# define WELCOME "Welcome to ft_select! "
 # define USAGE "Here's how to use it:\n./ft_select arg1 [arg2 ...]\n"
 
 /***** STRUCTS *****/
@@ -103,7 +103,6 @@ typedef struct s_state
 	int				window_change;
 	int				cursor_idx;
 	struct termios	original_term;
-	struct termios	current_term;
 }					t_state;
 
 typedef struct s_option_data
@@ -146,6 +145,9 @@ void	display_usage(void);
 
 /* enable_raw_mode.c */
 int		enable_raw_mode(void);
+
+/* free_and_exit.c */
+void	free_and_exit(t_list **options);
 
 /* ft_list_len.c */
 size_t	ft_list_len(t_list *lst);
@@ -197,7 +199,7 @@ char	*position_cursor_in_window(t_window_info *w, int i);
 int		print_error(char *error_msg, int restore);
 
 /* print_options.c */
-void	print_options(t_list *options, t_window_info *w);
+void	print_options(t_list **options, t_window_info *w);
 
 /* print_select_result.c */
 void	print_select_result(t_list *options);

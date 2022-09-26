@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 14:35:13 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 15:29:18 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	print_str_add(t_print_str *p, char *add)
 static int	initialise_print_struct(t_print_str *p)
 {
 	p->str = (char *) malloc(sizeof(char) * (PRINT_BUFF_SIZE + 1));
+	if (!(p->str))
+		return (0);
 	ft_strcpy(p->str, CLEAR_SCRN_SET_YELLOW);
 	p->len = ft_strlen(p->str);
 	p->count = 1;
@@ -77,33 +79,27 @@ static int	build_str(t_print_str *p, t_window_info *w, int i, t_option_data *d)
 	return (1);
 }
 
-static void	put_options(int fd, char *str, size_t len)
-{
-	if (write(fd, str, len))
-	{
-		;
-	}
-}
-
-void	print_options(t_list *options, t_window_info *w)
+void	print_options(t_list **options, t_window_info *w)
 {
 	int				i;
 	t_print_str		p;
 	t_option_data	*data;
+	t_list			*current;
 
-	if (!get_window_info(w, options))
+	if (!get_window_info(w, *options))
 		return ;
 	if (!initialise_print_struct(&p))
-		return ;
+		free_and_exit(options);
+	current = *options;
 	i = 0;
-	while (options)
+	while (current)
 	{
-		data = (t_option_data *) options->content;
+		data = (t_option_data *) current->content;
 		if (!build_str(&p, w, i, data))
-			return ;
-		options = options->next;
+			free_and_exit(options);
+		current = current->next;
 		i++;
 	}
-	put_options(g_state.fd, p.str, p.len);
+	write(g_state.fd, p.str, p.len);
 	free(p.str);
 }

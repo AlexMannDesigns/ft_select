@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:50:32 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 13:59:29 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 15:06:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	print_winsize_message(char *msg)
 	ft_putstr_fd(msg, g_state.fd);
 }
 
-static void winsize_error_dispatch(t_window_info *w)
+static void	winsize_error_dispatch(t_window_info *w)
 {
 	if ((w->rows < 5 && w->cols < 10) || (w->cols < 18 && w->rows > 20))
 		print_winsize_message(":(");
