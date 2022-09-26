@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:50:32 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 16:09:01 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 10:51:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	get_window_info(t_window_info *w, t_list *options)
 	if (w->len == 0)
 		return (0);
 	get_cols_rows(&(w->cols), &(w->rows));
-	w->col_width = get_max_option_length(options) + 3;
+	w->col_width = get_max_option_length(options) + PADDING;
 	w->cols_to_display = (w->cols / w->col_width);
 	if (w->cols_to_display == 0)
 		w->cols_to_display = 1;

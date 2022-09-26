@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 16:43:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 11:30:11 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,12 @@
 # define FALSE 0
 # define BUFF_SIZE 15
 # define PRINT_BUFF_SIZE 2048
+# define PADDING 3
 # define NO_TERM "ft_select: error: could not find TERM environment variable\n"
+# define TERMCAPS_ERR "ft_select: error: termcaps function failed\n"
+# define MALLOC_ERR "ft_select: error: malloc failed\n"
+# define OPEN_ERR "ft_select: error: open failed\n"
+# define READ_ERR "ft_select: error: read failed\n"
 
 /***** STRUCTS *****/
 
@@ -138,7 +143,7 @@ void	delete_node(void *content, size_t content_size);
 void	display_usage(void);
 
 /* enable_raw_mode.c */
-void	enable_raw_mode(void);
+int		enable_raw_mode(void);
 
 /* ft_list_len.c */
 size_t	ft_list_len(t_list *lst);
@@ -166,7 +171,7 @@ void	ft_remove_from_array(char ***orig, size_t idx);
 int		initialise_options(t_list **options, char **argv);
 
 /* intialise_program.c */
-void	initialise_program();
+int		initialise_program(void);
 
 /* is_delete.c */
 int		is_delete(char *buff);
@@ -180,8 +185,14 @@ void	move_cursor_right(t_list **options, t_window_info w);
 /* move_to_idx.c */
 t_list	*move_to_idx(t_list *current, int from, int to);
 
+/* my_putc.c */
+int		my_putc(int c);
+
 /* position_cursor_in_window.c */
 char	*position_cursor_in_window(t_window_info *w, int i);
+
+/* print_error.c */
+int		print_error(char *error_msg, int restore);
 
 /* print_options.c */
 void	print_options(t_list *options, t_window_info *w);
@@ -193,11 +204,8 @@ void	print_select_result(t_list *options);
 void	restore_terminal(void);
 
 /* setup_window.c */
-void	setup_window();
+void	setup_window(void);
 void	get_cols_rows(int *cols, int *rows);
-
-/* my_putc.c */
-int		my_putc(int c);
 
 /* toggle_cursor.c */
 void	toggle_cursor(t_list *current);

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 13:59:52 by amann             #+#    #+#             */
-/*   Updated: 2022/09/14 17:18:57 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 11:23:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@
  * read.
  */
 
-void	enable_raw_mode(void)
+int	enable_raw_mode(void)
 {
 	struct termios	raw;
 
 	if (tcgetattr(STDIN_FILENO, &raw) == -1)
-		return ;
+		return (0);
 	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN);
 	raw.c_iflag &= ~(IXON | BRKINT | INPCK | ISTRIP);
 	raw.c_oflag &= ~(OPOST);
@@ -68,5 +68,6 @@ void	enable_raw_mode(void)
 	raw.c_cc[VMIN] = 0;
 	raw.c_cc[VTIME] = 1;
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1)
-		return ;
+		return (0);
+	return (1);
 }

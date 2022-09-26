@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 10:56:29 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 11:23:16 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,24 @@ static void	init_signal_handlers(void)
 	signal(SIGQUIT, handle_signal);
 }
 
-void	initialise_program(void)
+int	initialise_program(void)
 {
 	char	*name;
 
 	g_state.fd = open("/dev/tty", O_RDWR);
+	if (g_state.fd == -1)
+		return (print_error(OPEN_ERR, FALSE));
 	g_state.cursor_idx = 0;
 	name = getenv("TERM");
 	if (!name)
-	{
-		ft_putstr_fd(NO_TERM, g_state.fd);
-		exit(EXIT_FAILURE);
-	}
+		return (print_error(NO_TERM, FALSE));
 	tgetent(NULL, name);
 	init_signal_handlers();
 	save_original_term_status();
 	move_to_alt_screen();
-	enable_raw_mode();
+	if (!enable_raw_mode())
+		return (print_error(TERMCAPS_ERR, TRUE));
 	make_cursor_invisible();
 	setup_window();
+	return (1);
 }
