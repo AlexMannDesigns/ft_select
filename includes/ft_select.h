@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 11:30:11 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 14:41:46 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@
 # define MALLOC_ERR "ft_select: error: malloc failed\n"
 # define OPEN_ERR "ft_select: error: open failed\n"
 # define READ_ERR "ft_select: error: read failed\n"
+# define WELCOME "Welcome to ft_select!"
+# define USAGE "Here's how to use it:\n./ft_select arg1 [arg2 ...]\n"
 
 /***** STRUCTS *****/
 
@@ -132,7 +134,7 @@ typedef struct s_print_str
 
 /***** GLOBAL VARIABLES *****/
 
-t_state	g_state;
+extern t_state	g_state;
 
 /***** FUNCTION PROTOTYPES *****/
 

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:42:06 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 10:20:41 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 11:45:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	display_usage(void)
 {
-	ft_putstr_fd("Welcome to ft_select! Here's how to use it:\n",
-		STDERR_FILENO);
-	ft_putstr_fd("./ft_select argument1 [argument2...]\n", STDERR_FILENO);
+	print_error(WELCOME, FALSE);
+	print_error(USAGE, FALSE);
 	exit(EXIT_SUCCESS);
 }

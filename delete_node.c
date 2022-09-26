@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:21:55 by amann             #+#    #+#             */
-/*   Updated: 2022/09/13 13:26:46 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 14:30:28 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	delete_node(void *content, size_t content_size)
 		data->cursor = 0;
 	}
 	ft_memdel(&content);
-	content_size = 0;
+	(void) content_size;
 }

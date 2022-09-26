@@ -6,12 +6,12 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/26 10:39:51 by amann            ###   ########.fr        #
+#    Updated: 2022/09/26 14:31:10 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_select
-FLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O3
+FLAGS = -Wall -Wextra -Werror -std=c99 -O3
 SRCS = delete_node.c display_usage.c enable_raw_mode.c get_window_info.c		\
 		handle_delete.c	handle_scroll.c handle_select.c handle_signal.c			\
 		initialise_options.c initialise_program.c is_delete.c main.c			\

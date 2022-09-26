@@ -6,11 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 11:26:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 14:53:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
+
+t_state g_state;
 
 static int	process_keys(t_list **options, t_window_info w, char *buff)
 {
@@ -39,18 +41,17 @@ static int	control_loop(t_list **options)
 	t_window_info		w;
 
 	ft_bzero(buff, BUFF_SIZE);
-	ret = 0;
 	while (*options)
 	{
 		if (g_state.window_change)
 			print_options(*options, &w);
 		ret = read(g_state.fd, buff, BUFF_SIZE);
-		if (ret == -1)
-			return (print_error(READ_ERR, TRUE));
+		//if (ret == -1)
+		//	return (print_error(READ_ERR, TRUE));
 		if (ret)
 		{
 			exited = process_keys(options, w, buff);
-			if (exited == 1)
+			if (exited)
 				return (1);
 			ft_bzero(buff, BUFF_SIZE);
 		}

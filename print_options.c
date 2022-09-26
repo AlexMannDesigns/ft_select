@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 14:29:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 14:35:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ static int	build_str(t_print_str *p, t_window_info *w, int i, t_option_data *d)
 	return (1);
 }
 
+static void	put_options(int fd, char *str, size_t len)
+{
+	if (write(fd, str, len))
+	{
+		;
+	}
+}
+
 void	print_options(t_list *options, t_window_info *w)
 {
 	int				i;
@@ -96,6 +104,6 @@ void	print_options(t_list *options, t_window_info *w)
 		options = options->next;
 		i++;
 	}
-	write(g_state.fd, p.str, p.len);
+	put_options(g_state.fd, p.str, p.len);
 	free(p.str);
 }

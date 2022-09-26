@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 12:43:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/14 17:26:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 14:51:25 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	initialise_options(t_list **options, char **argv)
 		if (argv[1])
 		{
 			current_node->next = (t_list *) ft_memalloc(sizeof(t_list));
-			if (!current_node)
+			if (!current_node->next)
 				return (delete_list(options));
 		}
 		current_node = current_node->next;
