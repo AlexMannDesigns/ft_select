@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 15:29:18 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 15:38:40 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,14 @@ void	print_options(t_list **options, t_window_info *w)
 	if (!get_window_info(w, *options))
 		return ;
 	if (!initialise_print_struct(&p))
-		free_and_exit(options);
+		free_and_exit(options, p);
 	current = *options;
 	i = 0;
 	while (current)
 	{
 		data = (t_option_data *) current->content;
 		if (!build_str(&p, w, i, data))
-			free_and_exit(options);
+			free_and_exit(options, p);
 		current = current->next;
 		i++;
 	}
