@@ -6,19 +6,16 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/01 13:44:30 by amann             #+#    #+#              #
-#    Updated: 2022/09/19 16:08:26 by amann            ###   ########.fr        #
+#    Updated: 2022/09/27 15:44:07 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#variables
-NAME = libft.a
-
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	FLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -O3 -D_DEFAULT_SOURCE
+FLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -O3 -D_DEFAULT_SOURCE
 endif
-ifeq ($(U_NAME_S), Darwin)
-	FLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -O3
+ifeq ($(UNAME_S), Darwin)
+FLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -O3
 endif
 
 LIB =  ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c	\
@@ -42,10 +39,11 @@ SRC_DIR = srcs/
 LEAKS = -g -fsanitize=address
 
 #rules
-all: $(NAME)
+all: $(OBJ)
+	@echo "\n\033[32mlibft srcs compiled\033[0m\n"
 
-$(NAME): 
-	@gcc $(FLAGS) -c $(LIB)
+%.o:%.c
+	gcc $(FLAGS) -c $< -o $@
 
 clean:
 	@/bin/rm -f $(OBJ)

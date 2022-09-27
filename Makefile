@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/26 15:30:23 by amann            ###   ########.fr        #
+#    Updated: 2022/09/27 15:33:41 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,16 +33,16 @@ $(NAME): libft/libft.a $(OBJ)
 	gcc $(FLAGS) $(HEADER) -c $< -o $@
 
 libft/libft.a:
-	@echo compiling libft...
+	@echo "\033[32mcompiling libft...\033[0m"
 	@$(MAKE) -C $(LIB_DIR)
 
 clean:
-	@echo deleting object files...
+	@echo "\033[32mdeleting object files...\033[0m"
 	@/bin/rm -f $(OBJ)
 	@$(MAKE) -C $(LIB_DIR) clean
 
 fclean: clean
-	@echo deleting executable file\(s\)...
+	@echo "\033[32mdeleting executable file(s)...\033[0m"
 	@/bin/rm -f $(NAME)
 	@$(MAKE) -C $(LIB_DIR) fclean
 

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:54:18 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 13:03:24 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 13:18:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int	stop_signal(int sig)
 		return (1);
 	return (0);
 }
-
 
 void	handle_signal(int sig)
 {

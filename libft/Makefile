@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/15 11:48:22 by amann             #+#    #+#              #
-#    Updated: 2022/09/19 16:07:55 by amann            ###   ########.fr        #
+#    Updated: 2022/09/27 15:46:52 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ $(NAME):
 	@$(MAKE) -C $(GNL_DIR)
 	@$(MAKE) -C $(PRF_DIR)
 	@ar rcs $(NAME) $(LIB_OBJ) $(GNL_OBJ) $(PRF_OBJ)
-	@echo libft compiled
+	@echo "\n\033[32mlibft.a compiled\033[0m\n"
 
 clean:
 	@$(MAKE) -C $(LIB_DIR) clean
