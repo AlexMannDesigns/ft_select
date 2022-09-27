@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:54:18 by amann             #+#    #+#             */
-/*   Updated: 2022/09/19 10:56:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 13:03:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,36 @@
  * we can then run initialise_program to display the ft_select interface.
  */
 
+static int	terminate_signal(int sig)
+{
+	if (sig == SIGINT || sig == SIGHUP || sig == SIGQUIT || sig == SIGILL
+		|| sig == SIGTRAP || sig == SIGABRT || sig == SIGEMT || sig == SIGFPE
+		|| sig == SIGBUS || sig == SIGSEGV || sig == SIGSYS || sig == SIGPIPE
+		|| sig == SIGALRM || sig == SIGTERM || sig == SIGXCPU || sig == SIGXFSZ
+		|| sig == SIGVTALRM || sig == SIGPROF || sig == SIGUSR1
+		|| sig == SIGUSR2)
+		return (1);
+	return (0);
+}
+
+static int	stop_signal(int sig)
+{
+	if (sig == SIGTTIN || sig == SIGTTOU || sig == SIGTSTP)
+		return (1);
+	return (0);
+}
+
+
 void	handle_signal(int sig)
 {
-	if (sig == SIGINT)
+	if (terminate_signal(sig))
 	{
 		restore_terminal();
 		exit(EXIT_SUCCESS);
 	}
 	else if (sig == SIGWINCH)
 		setup_window();
-	else if (sig == SIGTSTP)
+	else if (stop_signal(sig))
 	{
 		restore_terminal();
 		signal(SIGTSTP, SIG_DFL);
@@ -37,7 +57,5 @@ void	handle_signal(int sig)
 		ioctl(g_state.fd, TIOCSTI, SUSPEND);
 	}
 	else if (sig == SIGCONT)
-	{
 		initialise_program();
-	}
 }

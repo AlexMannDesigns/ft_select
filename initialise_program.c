@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 11:23:16 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 12:59:45 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,31 @@ static void	make_cursor_invisible(void)
 
 static void	init_signal_handlers(void)
 {
-	signal(SIGWINCH, handle_signal);
+	signal(SIGHUP, handle_signal);
 	signal(SIGINT, handle_signal);
+	signal(SIGQUIT, handle_signal);
+	signal(SIGILL, handle_signal);
+	signal(SIGTRAP, handle_signal);
+	signal(SIGABRT, handle_signal);
+	signal(SIGEMT, handle_signal);
+	signal(SIGFPE, handle_signal);
+	signal(SIGBUS, handle_signal);
+	signal(SIGSEGV, handle_signal);
+	signal(SIGSYS, handle_signal);
+	signal(SIGPIPE, handle_signal);
+	signal(SIGALRM, handle_signal);
+	signal(SIGTERM, handle_signal);
+	signal(SIGXCPU, handle_signal);
+	signal(SIGXFSZ, handle_signal);
+	signal(SIGVTALRM, handle_signal);
+	signal(SIGPROF, handle_signal);
+	signal(SIGUSR1, handle_signal);
+	signal(SIGUSR2, handle_signal);
 	signal(SIGTSTP, handle_signal);
 	signal(SIGCONT, handle_signal);
-	signal(SIGABRT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+	signal(SIGWINCH, handle_signal);
+	signal(SIGTTIN, handle_signal);
+	signal(SIGTTOU, handle_signal);
 }
 
 int	initialise_program(void)

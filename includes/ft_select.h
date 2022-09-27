@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 15:37:41 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/26 15:44:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,6 @@ int		enable_raw_mode(void);
 /* free_and_exit.c */
 void	free_and_exit(t_list **options, t_print_str p);
 
-/* ft_list_len.c */
-size_t	ft_list_len(t_list *lst);
-
 /* get_window_info.c */
 int		get_window_info(t_window_info *w, t_list *options);
 
@@ -166,10 +163,6 @@ void	handle_select(t_list **options);
 
 /* handle_signal.c */
 void	handle_signal(int sig);
-
-/* helpers.c */
-char	**ft_copy_array(char **orig);
-void	ft_remove_from_array(char ***orig, size_t idx);
 
 /* initialise_options.c */
 int		initialise_options(t_list **options, char **argv);
