@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 11:14:29 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 13:18:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 17:25:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int	initialise_program(void)
 	g_state.fd = open("/dev/tty", O_RDWR);
 	if (g_state.fd == -1)
 		return (print_error(OPEN_ERR, FALSE));
-	g_state.cursor_idx = 0;
 	name = getenv("TERM");
 	if (!name)
 		return (print_error(NO_TERM, FALSE));
-	tgetent(NULL, name);
+	if (tgetent(NULL, name) != 1)
+		return (print_error(TERMCAPS_ERR, FALSE));
 	init_signal_handlers();
 	save_original_term_status();
 	move_to_alt_screen();

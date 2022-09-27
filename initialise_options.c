@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 12:43:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 14:51:25 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 17:40:58 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static t_option_data	*create_opt_data_struct(char *option_name, int *first)
 	if (*first)
 	{
 		new->cursor = TRUE;
+		g_state.cursor_idx = 0;
 		*first = FALSE;
 	}
 	else
@@ -56,7 +57,7 @@ int	initialise_options(t_list **options, char **argv)
 
 	*options = (t_list *) ft_memalloc(sizeof(t_list));
 	if (!(*options))
-		return (delete_list(options));
+		return (0);
 	current_node = *options;
 	first = TRUE;
 	while (*argv)

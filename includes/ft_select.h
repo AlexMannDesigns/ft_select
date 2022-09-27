@@ -1,12 +1,12 @@
-
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_select.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/21 18:43:42 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 15:31:29 by amann            ###   ########.fr       */
+/*   Created: 2022/09/27 16:34:14 by amann             #+#    #+#             */
+/*   Updated: 2022/09/27 17:49:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,16 @@
 /***** HEADER FILES *****/
 
 # include "libft.h"
-# include <curses.h>
 # include <term.h>
-# include <termios.h>
 # include <fcntl.h>
 # include <sys/ioctl.h>
-# include <signal.h>
 
-/***** COLOUR MACROS *****/
-
-/* TEXT/FOREGROUND */
-# define BLACK "\033[30m"
-# define RED "\033[31m"
-# define GREEN "\033[32m"
-# define YELLOW "\033[33m"
-# define BLUE "\033[34m"
-# define PURPLE "\033[35m"
-# define CYAN "\033[36m"
-# define WHITE "\033[37m"
-# define RESET_COLOUR "\033[0m"
-
-/* BACKGROUND */
-# define BG_BLACK "\033[40m"
-# define BG_RED "\033[41m"
-# define BG_GREEN "\033[42m"
-# define BG_YELLOW "\033[43m"
-# define BG_BLUE "\033[44m"
-# define BG_PURPLE "\033[45m"
-# define BG_CYAN "\033[46m"
-# define BG_WHITE "\033[47m"
-
-/***** MISC BIT SEQUENCES *****/
+/***** BYTE SEQUENCES *****/
 
 # define CLEAR_SCRN "\x1B[2J"
-# define POSITION_TERM_CURSOR "\033[%d;%dH"
 # define ALT_SCRN "\033[?1049h\033[H"
 # define EXIT_ALT_SCRN "\033[?1049l"
 # define UL_START "\033[4m"
-# define UL_END "\033[24m"
 # define REV_VIDEO "\033[7m"
 # define SUSPEND "\x1a"
 # define RESET_DEFAULT_COLOUR "\033[0m\033[33m"
@@ -71,8 +43,6 @@
 # define SPACE 0x20
 # define ESC 0x1b
 # define BACKSPACE 0x7f
-//# define DELETE 0x7f
-//# define DELETE 0x1b5b337e
 
 /***** TERMCAP CODES *****/
 
@@ -84,7 +54,7 @@
 
 # define TRUE 1
 # define FALSE 0
-# define BUFF_SIZE 15
+# define READ_BUFF_SIZE 15
 # define PRINT_BUFF_SIZE 2048
 # define PADDING 3
 # define NO_TERM "ft_select: error: could not find TERM environment variable\n"

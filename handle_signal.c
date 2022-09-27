@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 10:54:18 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 13:18:51 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 17:31:48 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
  * to default and use ioctl effectively send ctrl-z to the terminal and send
  * ft_select to the background as normal. When the continue signal is received
  * we can then run initialise_program to display the ft_select interface.
+ *
+ * Any signal that would stop or terminate the process is handled. In all
+ * situations we need to make sure the terminal is reverted back to its
+ * original settings (except for SIGKILL and SIGSTOP, these can't be caught)
  */
 
 static int	terminate_signal(int sig)
@@ -46,9 +50,7 @@ void	handle_signal(int sig)
 		restore_terminal();
 		exit(EXIT_SUCCESS);
 	}
-	else if (sig == SIGWINCH)
-		setup_window();
-	else if (stop_signal(sig))
+	if (stop_signal(sig))
 	{
 		restore_terminal();
 		signal(SIGTSTP, SIG_DFL);
@@ -57,4 +59,6 @@ void	handle_signal(int sig)
 	}
 	else if (sig == SIGCONT)
 		initialise_program();
+	else if (sig == SIGWINCH)
+		setup_window();
 }

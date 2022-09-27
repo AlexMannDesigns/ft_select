@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/26 15:18:36 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/27 16:46:14 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ static int	control_loop(t_list **options)
 {
 	int					ret;
 	int					exited;
-	char				buff[BUFF_SIZE];
+	char				buff[READ_BUFF_SIZE];
 	t_window_info		w;
 
-	ft_bzero(buff, BUFF_SIZE);
+	ft_bzero(buff, READ_BUFF_SIZE);
 	while (*options)
 	{
 		if (g_state.window_change)
 			print_options(options, &w);
-		ret = read(g_state.fd, buff, BUFF_SIZE);
+		ret = read(g_state.fd, buff, READ_BUFF_SIZE);
 		if (ret == -1)
 			return (print_error(READ_ERR, TRUE));
 		if (ret)
@@ -53,7 +53,7 @@ static int	control_loop(t_list **options)
 			exited = process_keys(options, w, buff);
 			if (exited)
 				return (1);
-			ft_bzero(buff, BUFF_SIZE);
+			ft_bzero(buff, READ_BUFF_SIZE);
 		}
 	}
 	return (0);
@@ -62,7 +62,7 @@ static int	control_loop(t_list **options)
 int	main(int argc, char **argv)
 {
 	t_list			*options;
-	int				exited;
+	int				selected;
 
 	if (argc == 1)
 		display_usage();
@@ -74,9 +74,9 @@ int	main(int argc, char **argv)
 	}
 	if (initialise_program())
 	{
-		exited = control_loop(&options);
+		selected = control_loop(&options);
 		restore_terminal();
-		if (exited)
+		if (selected)
 			print_select_result(options);
 	}
 	ft_lstdel(&options, &delete_node);
