@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:34:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 17:49:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/28 18:46:47 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,15 @@
 # define USAGE "Here's how to use it:\n./ft_select arg1 [arg2 ...]\n"
 
 /***** STRUCTS *****/
+
+typedef struct s_game
+{
+	int		start;
+	int		direction;
+	int		x;
+	int		y;
+	size_t	len;
+}			t_game;
 
 typedef struct s_state
 {

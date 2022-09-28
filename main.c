@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 16:46:14 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/28 18:48:17 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,71 @@ static int	control_loop(t_list **options)
 {
 	int					ret;
 	int					exited;
-	char				buff[READ_BUFF_SIZE];
+	char				buff[read_buff_size];
 	t_window_info		w;
 
-	ft_bzero(buff, READ_BUFF_SIZE);
+	ft_bzero(buff, read_buff_size);
 	while (*options)
 	{
 		if (g_state.window_change)
 			print_options(options, &w);
-		ret = read(g_state.fd, buff, READ_BUFF_SIZE);
+		ret = read(g_state.fd, buff, read_buff_size);
 		if (ret == -1)
-			return (print_error(READ_ERR, TRUE));
+			return (print_error(read_err, true));
 		if (ret)
 		{
 			exited = process_keys(options, w, buff);
 			if (exited)
 				return (1);
-			ft_bzero(buff, READ_BUFF_SIZE);
+			ft_bzero(buff, read_buff_size);
 		}
 	}
 	return (0);
 }
 
+static int	process_keys(t_game *game, t_window_info w, char *buff)
+{
+	if (buff[0] == ESC && buff[1] == ARROW)
+		handle_movement(game, w, buff);
+	else if (buff[0] == ESC)
+	{
+		restore_terminal();
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
+}
+
+static void	snake_control(void)
+{
+	int					ret;
+	char				buff[read_buff_size];
+	t_window_info		w;
+	t_game				game;
+
+	game.start = TRUE;
+	ft_bzero(buff, read_buff_size);
+	while (1)
+	{
+		//if (g_state.window_change)
+		//	print_options(options, &w);
+		update_game(&game, &w);
+		ret = read(g_state.fd, buff, read_buff_size);
+		if (ret == -1)
+			return (print_error(read_err, true));
+		if (ret)
+		{
+			process_snake_keys(&game, w, buff);
+			ft_bzero(buff, read_buff_size);
+		}
+	}
+	restore_terminal();
+}
+
 int	main(int argc, char **argv)
 {
-	t_list			*options;
-	int				selected;
+	t_list	*options;
+	int		selected;
+	int		init;
 
 	if (argc == 1)
 		display_usage();
@@ -72,7 +111,10 @@ int	main(int argc, char **argv)
 		print_error(MALLOC_ERR, FALSE);
 		return (1);
 	}
-	if (initialise_program())
+	init = initialise_program();
+	if (init && ft_strequ(argv[1], "-snake"))
+		snake_control();
+	else if (init)
 	{
 		selected = control_loop(&options);
 		restore_terminal();
