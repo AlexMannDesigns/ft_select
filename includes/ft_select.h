@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:34:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/28 18:46:47 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/29 15:02:15 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # include <term.h>
 # include <fcntl.h>
+# include <time.h>
 # include <sys/ioctl.h>
 
 /***** BYTE SEQUENCES *****/
@@ -69,10 +70,12 @@
 
 typedef struct s_game
 {
-	int		start;
+	int		**position;
 	int		direction;
 	int		x;
 	int		y;
+	int		treat_x;
+	int		treat_y;
 	size_t	len;
 }			t_game;
 
