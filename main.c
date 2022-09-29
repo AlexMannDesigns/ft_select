@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/29 15:59:28 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/29 16:57:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,24 @@ static int	control_loop(t_list **options)
 	return (0);
 }
 
+void	exit_game(t_game *game)
+{
+	char	*arr[6];
+
+	arr[0] = "What a great use of your time!";
+	arr[1] = "Take a short break, you've earned it.";
+	arr[2] = "A historic achievement";
+	arr[3] = "Maybe you could add that to your CV";
+	arr[4] = "wow";
+	arr[5] = "Incredible";
+
+	restore_terminal();
+	srand(time(NULL));
+	ft_printf("Your score: %d\n", game->score);
+	ft_putendl(arr[rand() % 6]);
+	exit(EXIT_SUCCESS);
+}
+
 static int	process_snake_keys(t_game *game, char *buff)
 {
 	if (buff[0] == ESC && buff[1] == ARROW)
@@ -73,10 +91,7 @@ static int	process_snake_keys(t_game *game, char *buff)
 			game->direction = DOWN_ARROW;
 	}
 	else if (buff[0] == ESC)
-	{
-		restore_terminal();
-		exit(EXIT_SUCCESS);
-	}
+		exit_game(game);
 	return (0);
 }
 
@@ -89,7 +104,8 @@ void	start_game(t_game *game, t_window_info *w)
 	game->position = (int **) ft_memalloc(w->rows * w->cols * sizeof(int *));
 	game->x = w->cols / 2;
 	game->y = w->rows / 2;
-	game->len = 20;
+	game->len = 10;
+	game->score = 0;
 	i = 0;
 	j = game->x;
 	while (i < game->len)
@@ -97,7 +113,7 @@ void	start_game(t_game *game, t_window_info *w)
 		game->position[i] = (int *) ft_memalloc(2 * sizeof(int));
 		game->position[i][0] = j;
 		game->position[i][1] = game->y;
-		j--;
+		j -= 2;
 		i++;
 	}
 	game->direction = RIGHT_ARROW;
@@ -129,72 +145,57 @@ void	print_snake(t_game *game)
 void	place_treat(t_game *game, t_window_info w)
 {
 	srand(time(NULL));
-	game->treat_x = (rand() % (w.cols - 1)) + 1;
-	game->treat_y = (rand() % (w.rows - 1)) + 1;
+	game->treat_x = (rand() % (w.cols - 2)) + 1;
+	game->treat_y = (rand() % (w.rows - 2)) + 1;
 }
 
-int		draw_boundary(t_window_info w)
-{
-	if (w.cols < 40 || w.rows < 20)
-	{
-		//clear screen
-		ft_putstr_fd("\x1B[2J", g_state.fd);
-		ft_putstr_fd(tgoto(tgetstr(CURSOR_MOVE, NULL), 1, 1), g_state.fd);
-		ft_putstr_fd("Make me bigger", g_state.fd);
-		g_state.window_change = FALSE;
-		return (0);
-	}
-	if (w.cols > 60 || w.rows > 30)
-	{
-		//clear screen
-		ft_putstr_fd("\x1B[2J", g_state.fd);
-		ft_putstr_fd(tgoto(tgetstr(CURSOR_MOVE, NULL), 1, 1), g_state.fd);
-		ft_putstr_fd("Make me smaller", g_state.fd);
-		g_state.window_change = FALSE;
-		return (0);
-	}
-	return (1);
-}
 
-void	update_game(t_game *game, t_window_info w)
+static void	check_direction(t_game *game)
 {
-	size_t i;
-
-	if (!draw_boundary(w))
-		return ;
 	if (game->direction == RIGHT_ARROW)
-		game->x += 1;
+		game->x += 2;
 	else if (game->direction == LEFT_ARROW)
-		game->x -= 1;
+		game->x -= 2;
 	else if (game->direction == UP_ARROW)
 		game->y -= 1;
 	else if (game->direction == DOWN_ARROW)
 		game->y += 1;
+}
+
+static void	check_game_over(t_game *game, t_window_info w)
+{
+	size_t	i;
+
 	//check boundary
-	if (game->x == w.cols - 1 || game->x < 0 || game->y == w.rows || game->y < 0)
-	{
-		restore_terminal();
-		exit(EXIT_SUCCESS);
-	}
+	if (game->x >= w.cols - 1 || game->x < 0 || game->y >= w.rows || game->y < 0)
+		exit_game(game);
 	//check collision with tail
 	i = 0;
 	while (i < game->len)
 	{
 		if (game->x == game->position[i][0] && game->y == game->position[i][1])
-		{
-			restore_terminal();
-			exit(EXIT_SUCCESS);
-		}
+			exit_game(game);
 		i++;
 	}
+}
+
+static void	check_success(t_game *game, t_window_info w)
+{
 	//check if treat has been eaten
 	if ((game->x == game->treat_x || game->x == game->treat_x + 1 || game->x + 1 == game->treat_x)
 			&& game->y == game->treat_y)
 	{
 		(game->len)++;
+		(game->score)++;
 		game->position[game->len - 1] = ft_memalloc(sizeof(int) * 2);
 		place_treat(game, w);
 	}
+}
+
+static void	update_position(t_game *game)
+{
+	size_t	i;
+
 	//move values of position array up by 1
 	i = game->len - 1;
 	while (i)
@@ -206,6 +207,14 @@ void	update_game(t_game *game, t_window_info w)
 	//set 0 idx of array to new x and y coords
 	game->position[0][0] = game->x;
 	game->position[0][1] = game->y;
+}
+
+void	update_game(t_game *game, t_window_info w)
+{
+	check_direction(game);
+	check_game_over(game, w);
+	check_success(game, w);
+	update_position(game);
 	print_snake(game);
 }
 
@@ -221,8 +230,6 @@ static void	snake_control(void)
 	ft_bzero(buff, 15);
 	while (1)
 	{
-		if (g_state.window_change)
-			get_cols_rows(&(w.cols), &(w.rows));
 		update_game(&game, w);
 		ret = read(g_state.fd, buff, 15);
 		if (ret == -1)

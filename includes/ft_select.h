@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:34:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/29 15:02:15 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/29 16:19:42 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_game
 	int		y;
 	int		treat_x;
 	int		treat_y;
+	int		score;
 	size_t	len;
 }			t_game;
 
