@@ -134,6 +134,9 @@ void	display_usage(void);
 /* enable_raw_mode.c */
 int		enable_raw_mode(void);
 
+/* exit_game.c */
+void	exit_game(t_game *game);
+
 /* free_and_exit.c */
 void	free_and_exit(t_list **options, t_print_str p);
 
@@ -173,6 +176,9 @@ t_list	*move_to_idx(t_list *current, int from, int to);
 /* my_putc.c */
 int		my_putc(int c);
 
+/* place_treat.c */
+void	place_treat(t_game *game, t_window_info w);
+
 /* position_cursor_in_window.c */
 char	*position_cursor_in_window(t_window_info *w, int i);
 
@@ -188,9 +194,15 @@ void	print_select_result(t_list *options);
 /* restore_terminal.c */
 void	restore_terminal(void);
 
+/* update_game.c */
+void	update_game(t_game *game, t_window_info w);
+
 /* setup_window.c */
 void	setup_window(void);
 void	get_cols_rows(int *cols, int *rows);
+
+/* snake_control.c */
+void	snake_control(void);
 
 /* toggle_cursor.c */
 void	toggle_cursor(t_list *current);
