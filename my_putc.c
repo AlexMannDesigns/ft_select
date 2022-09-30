@@ -14,6 +14,9 @@
 
 int	my_putc(int c)
 {
-	write(g_state.fd, &c, 1);
+	if (write(g_state.fd, &c, 1))
+	{
+		;
+	}
 	return (c);
 }

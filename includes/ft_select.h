@@ -21,6 +21,11 @@
 # include <time.h>
 # include <sys/ioctl.h>
 
+# ifdef __linux__
+#  include <signal.h>
+#  define SIGEMT SIGBUS
+# endif
+
 /***** BYTE SEQUENCES *****/
 
 # define CLEAR_SCRN "\x1B[2J"
@@ -175,7 +180,7 @@ char	*position_cursor_in_window(t_window_info *w, int i);
 int		print_error(char *error_msg, int restore);
 
 /* print_options.c */
-void	print_options(t_list **options, t_window_info *w);
+int	print_options(t_list **options, t_window_info *w);
 
 /* print_select_result.c */
 void	print_select_result(t_list *options);

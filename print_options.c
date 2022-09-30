@@ -79,15 +79,16 @@ static int	build_str(t_print_str *p, t_window_info *w, int i, t_option_data *d)
 	return (1);
 }
 
-void	print_options(t_list **options, t_window_info *w)
+int	print_options(t_list **options, t_window_info *w)
 {
-	int				i;
-	t_print_str		p;
+	int		i;
+	int		res;
+	t_print_str	p;
 	t_option_data	*data;
-	t_list			*current;
+	t_list		*current;
 
 	if (!get_window_info(w, *options))
-		return ;
+		return (0);
 	if (!initialise_print_struct(&p))
 		free_and_exit(options, p);
 	current = *options;
@@ -100,6 +101,7 @@ void	print_options(t_list **options, t_window_info *w)
 		current = current->next;
 		i++;
 	}
-	write(g_state.fd, p.str, p.len);
+	res = write(g_state.fd, p.str, p.len);
 	free(p.str);
+	return (res);
 }
