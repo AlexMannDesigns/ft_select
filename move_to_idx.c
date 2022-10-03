@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 12:25:25 by amann             #+#    #+#             */
-/*   Updated: 2022/09/16 12:50:09 by amann            ###   ########.fr       */
+/*   Updated: 2022/10/03 16:17:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_list	*move_to_idx(t_list *current, int from, int to)
 {
-	while (from != to)
+	while (from != to && current)
 	{
 		(from)++;
 		current = current->next;
