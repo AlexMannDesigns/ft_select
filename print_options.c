@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 13:12:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/27 17:18:43 by amann            ###   ########.fr       */
+/*   Updated: 2022/10/03 13:04:45 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ static int	build_str(t_print_str *p, t_window_info *w, int i, t_option_data *d)
 
 int	print_options(t_list **options, t_window_info *w)
 {
-	int		i;
-	int		res;
-	t_print_str	p;
+	int				i;
+	int				res;
+	t_print_str		p;
 	t_option_data	*data;
-	t_list		*current;
+	t_list			*current;
 
 	if (!get_window_info(w, *options))
 		return (0);

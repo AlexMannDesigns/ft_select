@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   snake_control.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amann <amann@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/03 13:04:56 by amann             #+#    #+#             */
+/*   Updated: 2022/10/03 13:05:54 by amann            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_select.h"
 
 static int	process_snake_keys(t_game *game, char *buff)
@@ -21,7 +33,7 @@ static int	process_snake_keys(t_game *game, char *buff)
 static void	start_game(t_game *game, t_window_info *w)
 {
 	size_t	i;
-	int	j;
+	int		j;
 
 	get_cols_rows(&(w->cols), &(w->rows));
 	game->position = (int **) ft_memalloc(w->rows * w->cols * sizeof(int *));
@@ -44,10 +56,10 @@ static void	start_game(t_game *game, t_window_info *w)
 
 void	snake_control(void)
 {
-	int		ret;
-	char		buff[15];
+	int				ret;
+	char			buff[15];
 	t_window_info	w;
-	t_game		game;
+	t_game			game;
 
 	start_game(&game, &w);
 	place_treat(&game, w);

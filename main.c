@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 17:39:57 by amann             #+#    #+#             */
-/*   Updated: 2022/09/29 16:57:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/10/03 12:59:57 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	main(int argc, char **argv)
 		if (selected)
 			print_select_result(options);
 	}
+	close(g_state.fd);
 	ft_lstdel(&options, &delete_node);
 	return (0);
 }

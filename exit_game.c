@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_game.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amann <amann@student.hive.fi>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/03 13:03:20 by amann             #+#    #+#             */
+/*   Updated: 2022/10/03 13:03:25 by amann            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_select.h"
 
 void	exit_game(t_game *game)
@@ -10,7 +22,6 @@ void	exit_game(t_game *game)
 	arr[3] = "Maybe you could add that to your CV";
 	arr[4] = "wow";
 	arr[5] = "Incredible";
-
 	restore_terminal();
 	srand(time(NULL));
 	ft_printf("Your score: %d\n", game->score);

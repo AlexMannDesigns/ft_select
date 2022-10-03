@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:34:14 by amann             #+#    #+#             */
-/*   Updated: 2022/09/29 16:19:42 by amann            ###   ########.fr       */
+/*   Updated: 2022/10/03 13:14:44 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,10 @@ char	*position_cursor_in_window(t_window_info *w, int i);
 int		print_error(char *error_msg, int restore);
 
 /* print_options.c */
-int	print_options(t_list **options, t_window_info *w);
+int		print_options(t_list **options, t_window_info *w);
+
+/* print_snake.c */
+void	print_snake(t_game *game);
 
 /* print_select_result.c */
 void	print_select_result(t_list *options);

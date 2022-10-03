@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/21 18:48:59 by amann             #+#    #+#              #
-#    Updated: 2022/09/27 18:01:58 by amann            ###   ########.fr        #
+#    Updated: 2022/10/03 13:15:12 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ SRCS = delete_node.c display_usage.c enable_raw_mode.c get_window_info.c		\
 		move_to_idx.c move_cursor_left.c move_cursor_right.c my_putc.c			\
 		position_cursor_in_window.c print_select_result.c print_options.c		\
 		print_error.c restore_terminal.c setup_window.c toggle_cursor.c			\
-		free_and_exit.c place_treat.c exit_game.c update_game.c				\
-		snake_control.c
+		free_and_exit.c place_treat.c exit_game.c update_game.c					\
+		snake_control.c print_snake.c
 OBJ = $(SRCS:%.c=%.o)
 LIB_DIR = libft/
 HEADER = -I includes/ -I $(LIB_DIR)includes
